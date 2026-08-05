@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApp } from "../state/store";
-import type { AiMatch } from "../state/types";
+import { NEW_REQUEST_MATCHES, type AiMatch } from "../state/types";
 import iconLock from "../assets/icons/icon-lock-20.svg";
 import chevronLeft from "../assets/icons/chevron-left.svg";
 import "./RequestPage.css";
@@ -21,12 +21,26 @@ export function initials(name: string): string {
  * everything that did not come from the user's own pool.
  */
 export function RequestPage() {
-  const { request, matches, requestDraft, openMatch, goToContractors } = useApp();
+  const { request, matches, requestDraft, requestPhase, openMatch, openEditRequest, goToContractors } =
+    useApp();
   const [tab, setTab] = useState<(typeof TABS)[number]>("AI matches");
+  const [menuOpen, setMenuOpen] = useState(false);
   const isPrivate = requestDraft.privatePool;
 
-  const visible = isPrivate ? matches.filter((m) => m.source === "My Pool") : matches;
-  const hidden = matches.length - visible.length;
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest(".rq__more-wrap")) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDown, true);
+    return () => document.removeEventListener("mousedown", onDown, true);
+  }, [menuOpen]);
+
+  const sourced = isPrivate ? matches.filter((m) => m.source === "My Pool") : matches;
+  // A freshly published request has only found its first matches; the rest are
+  // there once it has been running.
+  const visible = requestPhase === "new" ? sourced.slice(0, NEW_REQUEST_MATCHES) : sourced;
+  const hidden = matches.length - sourced.length;
 
   return (
     <div className="rq">
@@ -42,18 +56,51 @@ export function RequestPage() {
         </div>
       </header>
 
-      <div className="rq__tabs">
-        {TABS.map((t) => (
+      <div className="rq__toolbar">
+        <div className="rq__tabs">
+          {TABS.map((t) => (
+            <button
+              key={t}
+              type="button"
+              className={`rq__tab t-b2-regular${t === tab ? " is-active" : ""}`}
+              onClick={() => setTab(t)}
+            >
+              {t}
+              {t === "AI matches" && <span className="rq__count t-caption">{visible.length}</span>}
+            </button>
+          ))}
+        </div>
+
+        <div className="rq__more-wrap">
           <button
-            key={t}
             type="button"
-            className={`rq__tab t-b2-regular${t === tab ? " is-active" : ""}`}
-            onClick={() => setTab(t)}
+            className="rq__more"
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            aria-label="Request actions"
+            onClick={() => setMenuOpen((o) => !o)}
           >
-            {t}
-            {t === "AI matches" && <span className="rq__count t-caption">{visible.length}</span>}
+            <span />
+            <span />
+            <span />
           </button>
-        ))}
+
+          {menuOpen && (
+            <div className="rq__menu row-menu" role="menu">
+              <button
+                type="button"
+                role="menuitem"
+                className="row-menu__item t-b2-regular"
+                onClick={() => {
+                  setMenuOpen(false);
+                  openEditRequest();
+                }}
+              >
+                Edit request
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {isPrivate && (

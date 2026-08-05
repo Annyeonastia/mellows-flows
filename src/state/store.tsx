@@ -15,6 +15,7 @@ import type {
   FlowOrigin,
   Overlay,
   RequestDraft,
+  RequestPhase,
   RequestRecord,
   Screen,
 } from "./types";
@@ -82,15 +83,19 @@ interface AppActions {
   /** Opens the popup on a blank draft. */
   openNewRequest: () => void;
   updateRequestDraft: (patch: Partial<RequestDraft>) => void;
-  /** Popup -> Edit request. The draft stays put. */
+  /** Opens Edit request for the request already on screen. */
   openEditRequest: () => void;
-  /** Edit request -> back to the popup, still filled in. */
-  backToNewRequest: () => void;
+  /** Leaves Edit request without publishing — back to the request. */
+  closeEditRequest: () => void;
   /** Abandons the whole flow and returns to the Contractors screen. */
   closeRequestFlow: () => void;
   updateRequest: (patch: Partial<RequestRecord>) => void;
-  /** Publish changes — the request exists from here on. */
+  /** Generate request — creates the request and lands on it. */
+  createRequest: () => void;
+  /** Publish changes — applies the edits and returns to the request. */
   publishRequest: () => void;
+  requestPhase: RequestPhase;
+  setRequestPhase: (phase: RequestPhase) => void;
   /** Opening a match marks it viewed, unless it is already invited. */
   openMatch: (id: string) => void;
   inviteMatch: (id: string) => void;
@@ -131,6 +136,9 @@ export function AppProvider({
   const [requestDraft, setRequestDraft] = useState<RequestDraft>(EMPTY_REQUEST_DRAFT);
   const [request, setRequest] = useState<RequestRecord>(SEED_REQUEST);
   const [matches, setMatches] = useState<AiMatch[]>(SEED_MATCHES);
+  const [requestPhase, setRequestPhase] = useState<RequestPhase>(
+    initialScreen === "request" ? "live" : "new",
+  );
   const toastTimer = useRef<number | null>(null);
 
   useEffect(
@@ -265,7 +273,7 @@ export function AppProvider({
 
   const openEditRequest = useCallback(() => setOverlay({ kind: "edit-request" }), []);
 
-  const backToNewRequest = useCallback(() => setOverlay({ kind: "new-request" }), []);
+  const closeEditRequest = useCallback(() => setOverlay({ kind: "none" }), []);
 
   const closeRequestFlow = useCallback(() => {
     setRequestDraft(EMPTY_REQUEST_DRAFT);
@@ -276,10 +284,17 @@ export function AppProvider({
     setRequest((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const publishRequest = useCallback(() => {
+  /* Generate request builds the request from the draft; the Edit screen edits
+     it afterwards. The frames say so: "Publish changes", and the private
+     warning promises "all your AI Matches will keep" — matches you can only
+     already have. */
+  const createRequest = useCallback(() => {
+    setRequestPhase("new");
     setOverlay({ kind: "none" });
     setScreen("request");
   }, []);
+
+  const publishRequest = useCallback(() => setOverlay({ kind: "none" }), []);
 
   const openMatch = useCallback((id: string) => {
     setMatches((prev) =>
@@ -322,11 +337,14 @@ export function AppProvider({
       openNewRequest,
       updateRequestDraft,
       openEditRequest,
-      backToNewRequest,
+      closeEditRequest,
       closeRequestFlow,
       request,
       matches,
+      requestPhase,
+      setRequestPhase,
       updateRequest,
+      createRequest,
       publishRequest,
       openMatch,
       inviteMatch,
@@ -359,11 +377,14 @@ export function AppProvider({
       openNewRequest,
       updateRequestDraft,
       openEditRequest,
-      backToNewRequest,
+      closeEditRequest,
       closeRequestFlow,
       request,
       matches,
+      requestPhase,
+      setRequestPhase,
       updateRequest,
+      createRequest,
       publishRequest,
       openMatch,
       inviteMatch,

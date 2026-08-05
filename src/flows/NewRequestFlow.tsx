@@ -17,7 +17,7 @@ const MAX_LENGTH = 256;
  * request carries the draft on to Edit request.
  */
 export function NewRequestFlow() {
-  const { requestDraft, updateRequestDraft, openEditRequest, closeRequestFlow } = useApp();
+  const { requestDraft, updateRequestDraft, createRequest, closeRequestFlow } = useApp();
 
   const { description, privatePool } = requestDraft;
   const covered = useMemo(() => coveredChips(description), [description]);
@@ -100,7 +100,7 @@ export function NewRequestFlow() {
               </p>
             </div>
 
-            <Button fullWidth disabled={!canSubmit} onClick={openEditRequest}>
+            <Button fullWidth disabled={!canSubmit} onClick={createRequest}>
               Generate request
             </Button>
           </div>

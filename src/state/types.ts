@@ -71,6 +71,13 @@ export interface RequestRecord {
   workload: string;
 }
 
+/** Two states of one request, not two steps: `new` is just published and still
+    filling up, `live` has been running and collected the rest of the matches. */
+export type RequestPhase = "new" | "live";
+
+/** How many matches a freshly published request shows. */
+export const NEW_REQUEST_MATCHES = 2;
+
 /** Where an AI match came from. "My Pool" is the user's own Contractor Pool. */
 export type MatchSource = "My Pool" | "Mellow" | "LinkedIn" | "Internet";
 

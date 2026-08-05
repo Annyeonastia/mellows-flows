@@ -16,7 +16,7 @@ import "./EditRequest.css";
  * still-filled popup; Publish changes creates the request.
  */
 export function EditRequest() {
-  const { request, updateRequest, requestDraft, updateRequestDraft, backToNewRequest, publishRequest } =
+  const { request, updateRequest, requestDraft, updateRequestDraft, closeEditRequest, publishRequest } =
     useApp();
   const isPrivate = requestDraft.privatePool;
 
@@ -24,7 +24,7 @@ export function EditRequest() {
     <div className="er">
       <header className="er__header">
         <div className="er__header-left">
-          <button type="button" className="er__back" onClick={backToNewRequest} aria-label="Back">
+          <button type="button" className="er__back" onClick={closeEditRequest} aria-label="Back">
             <img src={arrowLeft} alt="" aria-hidden="true" />
           </button>
           <h1 className="t-accent-h5">Edit Request</h1>

@@ -85,9 +85,14 @@ export default function App() {
   // Dev aid: #gallery renders the artwork on its own for visual checks.
   if (window.location.hash === "#gallery") return <IllustrationGallery />;
 
-  // Dev aid: #pool skips the import flow and opens on the filled table.
+  // Dev aids: #pool skips the import flow and opens on the filled table;
+  // #live opens a request that has been running, so the Live Request frames are
+  // reachable without waiting for matches to trickle in.
+  const hash = window.location.hash;
+  const initialScreen = hash === "#pool" ? "pool" : hash === "#live" ? "request" : "empty";
+
   return (
-    <AppProvider initialScreen={window.location.hash === "#pool" ? "pool" : "empty"}>
+    <AppProvider initialScreen={initialScreen}>
       <Shell />
     </AppProvider>
   );
