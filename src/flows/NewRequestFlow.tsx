@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { Button } from "../components/Button";
 import { FullScreenModal } from "../components/FullScreenModal";
 import { COVERAGE_CHIPS, coveredChips } from "../lib/requestCoverage";
@@ -18,7 +18,6 @@ const MAX_LENGTH = 256;
  */
 export function NewRequestFlow() {
   const { requestDraft, updateRequestDraft, openEditRequest, closeRequestFlow } = useApp();
-  const fieldRef = useRef<HTMLTextAreaElement>(null);
 
   const { description, privatePool } = requestDraft;
   const covered = useMemo(() => coveredChips(description), [description]);
@@ -26,15 +25,8 @@ export function NewRequestFlow() {
   const required = COVERAGE_CHIPS.filter((c) => c.group === "required");
   const recommended = COVERAGE_CHIPS.filter((c) => c.group === "recommended");
 
-  const submit = () => {
-    // The button is never greyed out in the design, so an empty field sends the
-    // user back to the field rather than nowhere.
-    if (!description.trim()) {
-      fieldRef.current?.focus();
-      return;
-    }
-    openEditRequest();
-  };
+  /** "Generate request becomes active" — nothing to generate from an empty field. */
+  const canSubmit = description.trim().length > 0;
 
   const renderChips = (group: typeof required) => (
     <div className="nr__badges">
@@ -62,7 +54,6 @@ export function NewRequestFlow() {
           <div className="nr__form">
             <div className="nr__field">
               <textarea
-                ref={fieldRef}
                 className="nr__textarea t-b2-regular"
                 placeholder={PLACEHOLDER}
                 maxLength={MAX_LENGTH}
@@ -109,7 +100,7 @@ export function NewRequestFlow() {
               </p>
             </div>
 
-            <Button fullWidth onClick={submit}>
+            <Button fullWidth disabled={!canSubmit} onClick={openEditRequest}>
               Generate request
             </Button>
           </div>

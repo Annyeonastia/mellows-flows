@@ -18,6 +18,9 @@
   --bg-surface-primary: #ffffff;
   --bg-surface-tertiary-2: #f4eadc;
   --bg-surface-danger: #fee6e2;
+  --bg-surface-warning: #fff6c5;
+  /* Merino/100 — the ground behind the Edit request columns. */
+  --bg-merino-100: #f5eddf;
   --bg-surface-success: #e3f5e7;
   --bg-surface-success-translucent: rgba(94, 139, 127, 0.12);
   /* Toggle track / knob — bg-fill/control in the Figma collection. */
