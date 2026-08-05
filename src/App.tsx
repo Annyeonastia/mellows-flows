@@ -86,13 +86,15 @@ export default function App() {
   if (window.location.hash === "#gallery") return <IllustrationGallery />;
 
   // Dev aids: #pool skips the import flow and opens on the filled table;
-  // #live opens a request that has been running, so the Live Request frames are
-  // reachable without waiting for matches to trickle in.
+  // #live opens the request with every match; #new opens the freshly created
+  // state that shows only the first couple, which the flow itself no longer
+  // lands on.
   const hash = window.location.hash;
-  const initialScreen = hash === "#pool" ? "pool" : hash === "#live" ? "request" : "empty";
+  const isRequest = hash === "#live" || hash === "#new";
+  const initialScreen = hash === "#pool" ? "pool" : isRequest ? "request" : "empty";
 
   return (
-    <AppProvider initialScreen={initialScreen}>
+    <AppProvider initialScreen={initialScreen} initialPhase={hash === "#new" ? "new" : "live"}>
       <Shell />
     </AppProvider>
   );

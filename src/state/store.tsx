@@ -123,10 +123,13 @@ const Ctx = createContext<(AppState & AppActions) | null>(null);
 export function AppProvider({
   children,
   initialScreen = "empty",
+  initialPhase = "live",
 }: {
   children: ReactNode;
   /** Dev aid: #pool opens straight on the table instead of the empty state. */
   initialScreen?: Screen;
+  /** Dev aid: #new opens the just-created request that shows only two matches. */
+  initialPhase?: RequestPhase;
 }) {
   const [screen, setScreen] = useState<Screen>(initialScreen);
   const [overlay, setOverlay] = useState<Overlay>({ kind: "none" });
@@ -137,9 +140,7 @@ export function AppProvider({
   const [requestDraft, setRequestDraft] = useState<RequestDraft>(EMPTY_REQUEST_DRAFT);
   const [request, setRequest] = useState<RequestRecord>(SEED_REQUEST);
   const [matches, setMatches] = useState<AiMatch[]>(SEED_MATCHES);
-  const [requestPhase, setRequestPhase] = useState<RequestPhase>(
-    initialScreen === "request" ? "live" : "new",
-  );
+  const [requestPhase, setRequestPhase] = useState<RequestPhase>(initialPhase);
   const toastTimer = useRef<number | null>(null);
 
   useEffect(
@@ -289,8 +290,11 @@ export function AppProvider({
      it afterwards. The frames say so: "Publish changes", and the private
      warning promises "all your AI Matches will keep" — matches you can only
      already have. */
+  /* Going through the whole flow lands on the full list. The two-match "new"
+     state is still drawn in the frames and still reachable via #new, but a demo
+     that ends on a half-filled request reads as if the matching failed. */
   const createRequest = useCallback(() => {
-    setRequestPhase("new");
+    setRequestPhase("live");
     setOverlay({ kind: "none" });
     setScreen("request");
   }, []);
