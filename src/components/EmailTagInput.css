@@ -1,0 +1,73 @@
+.tag-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.tag-input__box {
+  height: 108px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--space-2);
+  padding: 15px;
+  border: var(--stroke-border) solid var(--border-input);
+  border-radius: var(--radius-2);
+  background: var(--bg-surface-primary);
+  overflow-y: auto;
+  cursor: text;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.tag-input__box:focus-within {
+  border-color: var(--border-primary);
+}
+
+.tag-input__field {
+  flex: 1;
+  min-width: 160px;
+  height: 22px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.tag-input__field::placeholder {
+  color: var(--text-tertiary);
+}
+
+.tag-input__counter {
+  width: 100%;
+}
+
+/* ---------- chips ---------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 26px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-2);
+  background: var(--bg-surface-tertiary-2);
+  color: var(--text-primary);
+  max-width: 100%;
+}
+
+.tag--invalid {
+  background: var(--bg-surface-danger);
+  color: var(--text-danger-600);
+}
+
+.tag__remove {
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.tag__remove:hover {
+  opacity: 1;
+}

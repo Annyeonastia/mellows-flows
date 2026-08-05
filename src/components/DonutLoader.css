@@ -1,0 +1,12 @@
+.donut {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.donut img {
+  display: block;
+  max-width: none;
+  object-fit: cover;
+}

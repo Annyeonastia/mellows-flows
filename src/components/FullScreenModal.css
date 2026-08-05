@@ -1,0 +1,80 @@
+.fsm {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  animation: fsm-in var(--duration-base) var(--ease-standard);
+}
+
+.fsm__header {
+  position: relative;
+  flex-shrink: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 76px;
+  background: var(--bg-primary-translucent);
+  backdrop-filter: var(--header-blur);
+  -webkit-backdrop-filter: var(--header-blur);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.fsm__title {
+  color: var(--text-primary);
+  padding-top: var(--space-1);
+  white-space: nowrap;
+}
+
+.fsm__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3-5);
+  border-radius: var(--radius-2-5);
+  background: var(--button-secondary-default);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.fsm__close:hover {
+  background: var(--button-secondary-hover);
+}
+
+.fsm__close:active {
+  background: var(--button-secondary-active);
+}
+
+.fsm__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  overflow-y: auto;
+}
+
+/* Column / Loader in Figma — the 440px content column shared by every state. */
+.fsm__column {
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* The importing state centres its column in the remaining height. */
+.fsm__body--center {
+  align-items: center;
+}
+
+@keyframes fsm-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

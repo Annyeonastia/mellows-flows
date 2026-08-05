@@ -1,0 +1,146 @@
+/* Design tokens — mirrored 1:1 from the AI Scout Figma variable collection.
+   Source: figma.com/design/1jDVy4XVyDuulgoKc6P2Lv/AI-Scout
+   Do not invent values here; every entry maps to a Figma variable. */
+
+:root {
+  /* ---------- Palette ---------- */
+  --primary-porcelain: #f8f2e9;
+  --orange-200: #f6d8ba;
+  --pearl-bush-400-20: rgba(193, 148, 118, 0.2);
+
+  /* ---------- Background ---------- */
+  --bg-primary: #f8f2e9;
+  --bg-primary-translucent: rgba(248, 242, 233, 0.8);
+  --bg-secondary: #ede2d6;
+  --bg-secondary-translucent: rgba(228, 211, 196, 0.64);
+  --bg-surface-primary: #ffffff;
+  --bg-surface-tertiary-2: #f4eadc;
+  --bg-surface-danger: #fee6e2;
+  --bg-surface-success: #e3f5e7;
+  /* Info snackbar — sampled from the "Email copied!" frame. */
+  --bg-surface-info: #dde5e3;
+  /* Table selection — sampled from the "Impossible to resend invite" frame. */
+  --checkbox-off: #f0e6de;
+  --checkbox-off-hover: #e4d3c4;
+  --checkbox-on: #ff6f23;
+  --checkbox-on-hover: #f2621a;
+  --row-selected: #fcf2e8;
+  --mass-actions-bg: #f4eadc;
+
+  /* ---------- Border ---------- */
+  --border-primary: #d3b69e;
+  --border-secondary: #ead8be;
+  --border-input: #ffffff;
+  --border-danger: #db4933;
+  --border-success: #2e9e4b;
+  --border-info: #5e8b7f;
+  --stroke-border: 1px;
+
+  /* ---------- Text ---------- */
+  --text-primary: #232222;
+  --text-secondary: #8a8686;
+  --text-tertiary: #d1d0d0;
+  --text-inverse: #ffffff;
+  --text-brand: #ff6f23;
+  --text-danger-600: #db4933;
+  --text-success-600: #2e9e4b;
+  --text-info-600: #5e8b7f;
+  --text-and-icons-secondary: rgba(35, 34, 34, 0.55);
+
+  /* ---------- Icon ---------- */
+  --icon-primary: #232222;
+  --icon-inverse: #ffffff;
+  --icon-brand-500: #ff6f23;
+
+  /* ---------- Buttons ---------- */
+  --button-primary-default: #232222;
+  --button-secondary-default: #ede2d6;
+  --button-danger-secondary: rgba(246, 132, 115, 0.16);
+  --button-danger-secondary-hover: rgba(246, 132, 115, 0.26);
+
+  /* Interaction states — derived from the Figma base tokens.
+     TODO: replace with the exact hover/active variables once the button
+     component variants are pulled from Figma. */
+  --button-primary-hover: #3a3838;
+  --button-primary-active: #151414;
+  --button-secondary-hover: #e4d3c4;
+  --button-secondary-active: #dbc7b5;
+  --button-ghost-hover: rgba(193, 148, 118, 0.12);
+  --button-disabled-bg: #e6ded4;
+  --button-disabled-text: rgba(35, 34, 34, 0.35);
+  --focus-ring: rgba(255, 111, 35, 0.45);
+
+  /* ---------- Service ---------- */
+  --service-logo: #232222;
+  --service-transparent: rgba(255, 255, 255, 0);
+  --service-bg-modal: rgba(35, 34, 34, 0.4);
+
+  /* ---------- Space ---------- */
+  --space-0: 0px;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-3-5: 14px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-18: 72px;
+
+  /* ---------- Radius ---------- */
+  --radius-2: 8px;
+  --radius-2-5: 10px;
+  --radius-3: 12px;
+  --radius-3-5: 14px;
+  --radius-4: 16px;
+  --radius-5: 20px;
+  --radius-full: 9999px;
+
+  /* ---------- Typography ---------- */
+  --font-family-body: "Suisse Intl", "Suisse Int'l", -apple-system, system-ui, sans-serif;
+  --font-family-accent: "PP Neue World", "Suisse Intl", Georgia, serif;
+  --font-family-caption: var(--font-family-body);
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-36: 36px;
+
+  --line-height-14: 14px;
+  --line-height-18: 18px;
+  --line-height-22: 22px;
+  --line-height-24: 24px;
+  --line-height-32: 32px;
+  --line-height-42: 42px;
+
+  /* ---------- Effects ---------- */
+  --menu-bg-blur: blur(8px);
+  --header-blur: blur(4px);
+  --shadow-dropdown:
+    0px 10px 15px -3px rgba(35, 34, 34, 0.1), 0px 4px 6px 0px rgba(35, 34, 34, 0.05);
+
+  /* ---------- Layout ---------- */
+  --sidebar-collapsed: 72px;
+  --sidebar-expanded: 192px;
+  --canvas-width: 1280px;
+
+  /* ---------- Motion ----------
+     Figma carries no explicit prototype motion on these frames, so transitions
+     stay in the "well-built website" range: short, eased, never showy. */
+  --ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+}

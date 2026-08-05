@@ -1,0 +1,35 @@
+.pool__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pool__actions .btn--md {
+  height: 42px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-2);
+}
+
+.pool__csv {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 42px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-2);
+  color: var(--text-brand);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.pool__csv:hover {
+  background: var(--button-ghost-hover);
+}
+
+/* Owns the vertical scroll. Content starts below the header but scrolls up
+   underneath it, which is what produces the blurred band at the top. */
+.pool__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--header-h, 172px) var(--space-10) var(--space-10);
+}

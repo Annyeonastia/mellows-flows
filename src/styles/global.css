@@ -1,0 +1,147 @@
+@import "./fonts.css";
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-22);
+  font-weight: var(--font-weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Inputs that sit inside a bordered field draw no ring of their own — the
+   wrapper already marks focus through :focus-within, and two rings read as
+   a validation error. */
+.tag-input__field:focus-visible,
+.pool__search input:focus-visible,
+.msel__search input:focus-visible,
+.mi-field__input input:focus-visible,
+.filter__input:focus-visible {
+  outline: none;
+}
+
+/* ---------- Typography scale (Figma text styles) ---------- */
+
+.t-accent-h3 {
+  font-family: var(--font-family-accent);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-36);
+  line-height: var(--line-height-42);
+}
+
+.t-accent-h5 {
+  font-family: var(--font-family-accent);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-28);
+  line-height: var(--line-height-32);
+}
+
+.t-b1-regular {
+  font-size: var(--font-size-18);
+  line-height: var(--line-height-24);
+  font-weight: var(--font-weight-regular);
+}
+
+.t-b1-medium {
+  font-size: var(--font-size-18);
+  line-height: var(--line-height-24);
+  font-weight: var(--font-weight-medium);
+}
+
+.t-b2-regular {
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-22);
+  font-weight: var(--font-weight-regular);
+}
+
+.t-b3-regular {
+  font-size: var(--font-size-14);
+  line-height: var(--line-height-18);
+  font-weight: var(--font-weight-regular);
+}
+
+.t-b3-medium {
+  font-size: var(--font-size-14);
+  line-height: var(--line-height-18);
+  font-weight: var(--font-weight-medium);
+}
+
+.t-caption {
+  font-family: var(--font-family-caption);
+  font-size: var(--font-size-12);
+  line-height: var(--line-height-14);
+  font-weight: var(--font-weight-regular);
+}
+
+.u-secondary {
+  color: var(--text-secondary);
+}
+
+.u-brand {
+  color: var(--text-brand);
+}
+
+/* Search match — sampled from the Figma search state. */
+.hl {
+  background: #ffe5b3;
+  color: inherit;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

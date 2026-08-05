@@ -1,0 +1,120 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-2-5);
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-regular);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+
+/* ---------- sizes ---------- */
+
+.btn--xl {
+  padding: var(--space-3-5) var(--space-6);
+  font-size: var(--font-size-18);
+  line-height: var(--line-height-24);
+}
+
+.btn--md {
+  padding: var(--space-2-5) var(--space-4);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-22);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.btn--md .btn__icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- variants ---------- */
+
+.btn--primary {
+  background: var(--button-primary-default);
+  color: var(--text-inverse);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--button-primary-hover);
+}
+
+.btn--primary:active:not(:disabled) {
+  background: var(--button-primary-active);
+  transform: scale(0.99);
+}
+
+.btn--secondary {
+  background: var(--button-secondary-default);
+  color: var(--text-primary);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--button-secondary-hover);
+}
+
+.btn--secondary:active:not(:disabled) {
+  background: var(--button-secondary-active);
+  transform: scale(0.99);
+}
+
+.btn--danger {
+  background: var(--button-danger-secondary);
+  color: var(--text-danger-600);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: var(--button-danger-secondary-hover);
+}
+
+.btn--danger:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.btn--ghost-brand {
+  background: transparent;
+  color: var(--text-brand);
+}
+
+.btn--ghost-brand:hover:not(:disabled) {
+  background: var(--button-ghost-hover);
+}
+
+.btn--ghost-brand:active:not(:disabled) {
+  background: var(--pearl-bush-400-20);
+}
+
+/* ---------- states ---------- */
+
+.btn:disabled {
+  background: var(--button-disabled-bg);
+  color: var(--button-disabled-text);
+  cursor: not-allowed;
+}
+
+.btn--ghost-brand:disabled {
+  background: transparent;
+}
+
+.btn.is-loading {
+  cursor: progress;
+}
+
+.btn.is-loading .btn__label {
+  opacity: 0.72;
+}

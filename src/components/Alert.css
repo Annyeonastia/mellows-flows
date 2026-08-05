@@ -1,0 +1,98 @@
+.alert {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: 60;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: 15px;
+  border-radius: var(--radius-3);
+  border: var(--stroke-border) solid transparent;
+  animation: alert-in var(--duration-base) var(--ease-standard);
+}
+
+.alert--toast {
+  position: fixed;
+  top: var(--space-6);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  z-index: 70;
+  animation: toast-in var(--duration-base) var(--ease-standard);
+}
+
+.alert--danger {
+  background: var(--bg-surface-danger);
+  border-color: var(--border-danger);
+  color: var(--text-danger-600);
+}
+
+.alert--success {
+  background: var(--bg-surface-success);
+  border-color: var(--border-success);
+  color: var(--text-success-600);
+}
+
+/* Info snackbar — 182x52 in the design, so it runs tighter than the
+   danger/success alerts: 14px padding and a 10px gap. */
+.alert--info {
+  padding: 14px;
+  gap: var(--space-2-5);
+  background: var(--bg-surface-info);
+  border-color: var(--border-info);
+  color: var(--text-info-600);
+}
+
+.alert__info-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.alert__icon-frame {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.alert__text {
+  color: inherit;
+  white-space: nowrap;
+}
+
+.alert__close {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.alert__close:hover {
+  opacity: 1;
+}
+
+@keyframes alert-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

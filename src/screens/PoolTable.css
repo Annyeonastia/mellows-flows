@@ -1,0 +1,581 @@
+.pool {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ---------- toolbar ---------- */
+
+.pool__toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.pool__search-group {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pool__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2-5);
+  width: 526px;
+  min-width: 360px;
+  max-width: 720px;
+  height: 42px;
+  padding: 0 10px 0 13px;
+  border: var(--stroke-border) solid var(--border-input);
+  border-radius: var(--radius-2);
+  background: var(--bg-surface-primary);
+  cursor: text;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+/* Active search — focused, or holding a term. Both read as "search is on",
+   the same way the filter button marks an applied filter. */
+.pool__search:focus-within,
+.pool__search.has-value {
+  border-color: var(--text-brand);
+}
+
+.pool__search-clear {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.pool__search-clear:hover {
+  opacity: 1;
+}
+
+.pool__search-clear img {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+.pool__search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.pool__search input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.pool__filter {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-2);
+  background: var(--button-secondary-default);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.pool__filter:hover {
+  background: var(--button-secondary-hover);
+}
+
+/* Active-filter marker — local component, no library equivalent. */
+.pool__filter {
+  position: relative;
+}
+
+.pool__filter.is-active {
+  background: var(--orange-200);
+}
+
+.pool__filter-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--text-brand);
+  border: 2px solid var(--bg-primary);
+}
+
+/* ---------- applied filter chips ---------- */
+
+.filter-chips {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.filter-chips__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 32px;
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-2);
+  background: var(--orange-200);
+  color: var(--text-primary);
+}
+
+.filter-chips__chip button {
+  display: block;
+  opacity: 0.7;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.filter-chips__chip button:hover {
+  opacity: 1;
+}
+
+.filter-chips__reset {
+  color: var(--text-brand);
+  padding: 0 var(--space-2);
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.filter-chips__reset:hover {
+  opacity: 0.75;
+}
+
+.pool__pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pool__count {
+  white-space: nowrap;
+}
+
+.pool__rows {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: 6px;
+  background: var(--button-secondary-default);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.pool__rows:hover,
+.pool__rows.is-open {
+  background: var(--button-secondary-hover);
+}
+
+/* ---------- rows-per-page ---------- */
+
+.pool__rows-wrap {
+  position: relative;
+}
+
+/* Anchored to the button rather than portalled: the toolbar never scrolls.
+   Compound selector so it beats `.row-menu`'s fixed positioning regardless of
+   which stylesheet the bundler emits first. */
+.pool__rows-menu.row-menu {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  min-width: 96px;
+  margin: 0;
+  list-style: none;
+}
+
+.pool__rows-menu .row-menu__item.is-current {
+  color: var(--text-brand);
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.pager__item {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 12px;
+  display: grid;
+  place-items: center;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: var(--font-size-14);
+  line-height: var(--line-height-18);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.pager__item--arrow {
+  padding: 0 8px;
+  min-width: 0;
+}
+
+.pager__item:hover:not(:disabled):not(.is-active) {
+  background: var(--button-secondary-hover);
+}
+
+.pager__item.is-active {
+  background: var(--orange-200);
+  color: var(--text-brand);
+}
+
+.pager__item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- scroll container ----------
+   One box owns both axes, so vertical and horizontal scrolling happen together
+   and the sticky header/columns stay pinned in both directions. */
+
+/* Horizontal axis only — the page body handles vertical scrolling, so the
+   column header scrolls away with the rows exactly as the design shows. */
+.pool__scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-3) var(--radius-3) 0 0;
+  background: var(--bg-surface-primary);
+}
+
+.ptable {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: 1648px;
+}
+
+/* ---------- header row ---------- */
+
+.ptable__th {
+  height: 40px;
+  padding: 0 var(--space-3);
+  text-align: left;
+  font-weight: var(--font-weight-regular);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  white-space: nowrap;
+}
+
+/* ---------- body ---------- */
+
+.ptable__td {
+  height: 56px;
+  padding: 0 var(--space-3);
+  background: var(--bg-surface-primary);
+  border-bottom: 1px solid #f5eddf;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.ptable__td--clip {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ptable__row:hover .ptable__td {
+  background: #fdfaf5;
+}
+
+.ptable__row.is-selected .ptable__td,
+.ptable__row.is-selected:hover .ptable__td {
+  background: var(--row-selected);
+}
+
+/* ---------- mass actions ---------- */
+
+.mass-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 64px;
+  padding: 0 var(--space-6);
+  border-left: 4px solid var(--checkbox-on);
+  border-radius: var(--radius-3) var(--radius-3) 0 0;
+  background: var(--mass-actions-bg);
+}
+
+.mass-actions__clear {
+  display: block;
+  flex-shrink: 0;
+  color: var(--text-brand);
+  opacity: 0.9;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.mass-actions__clear:hover {
+  opacity: 1;
+}
+
+.mass-actions__delete {
+  margin-left: auto;
+}
+
+/* The bar takes over the rounded top edge while it is visible. */
+.pool__scroll.has-mass-actions {
+  border-radius: 0;
+}
+
+/* ---------- sticky columns ---------- */
+
+.ptable__col--check {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
+.ptable__col--contractor {
+  position: sticky;
+  left: 64px;
+  z-index: 3;
+}
+
+.ptable__col--actions {
+  position: sticky;
+  right: 0;
+  z-index: 3;
+}
+
+.ptable__th.ptable__col--check,
+.ptable__th.ptable__col--contractor,
+.ptable__th.ptable__col--actions {
+  z-index: 4;
+}
+
+/* Separation only once the user has actually scrolled sideways. */
+.pool__scroll.is-scrolled-x .ptable__col--contractor::after,
+.pool__scroll.is-scrolled-x .ptable__col--actions::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  pointer-events: none;
+}
+
+.pool__scroll.is-scrolled-x .ptable__col--contractor::after {
+  right: -12px;
+  background: linear-gradient(to right, rgba(35, 34, 34, 0.08), transparent);
+}
+
+.pool__scroll.is-scrolled-x .ptable__col--actions::before {
+  left: -12px;
+  background: linear-gradient(to left, rgba(35, 34, 34, 0.08), transparent);
+}
+
+.ptable__col--contractor,
+.ptable__col--actions {
+  position: sticky;
+}
+
+/* ---------- cells ---------- */
+
+.cell-contractor {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cell-contractor__name {
+  color: var(--text-brand);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell-contractor__email {
+  color: var(--text-secondary);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 4px;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.cell-contractor__email:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.cell-country {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cell-country__flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cell-added {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ---------- status badges (sampled from the Figma export) ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-2);
+  font-size: var(--font-size-14);
+  line-height: var(--line-height-18);
+  white-space: nowrap;
+}
+
+.badge--scored {
+  background: #ebf1ef;
+  color: #5e8b7f;
+}
+
+.badge--invitation-sent {
+  background: #f0e6de;
+  color: var(--text-primary);
+}
+
+.badge--missing-info {
+  background: #fcebe8;
+  color: var(--text-danger-600);
+}
+
+.badge--invitation-viewed {
+  background: #fff6da;
+  color: #e27f00;
+}
+
+/* ---------- in matches ----------
+   Exported at 3x from the Figma table render. `multiply` drops the white
+   background so the icons sit correctly on selected and hovered rows too. */
+
+.matches {
+  display: block;
+  width: 24px;
+  height: 24px;
+  mix-blend-mode: multiply;
+}
+
+/* ---------- checkbox ---------- */
+
+.checkbox {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox__box {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--checkbox-off);
+  display: block;
+  position: relative;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.checkbox:hover .checkbox__box {
+  background: var(--checkbox-off-hover);
+}
+
+.checkbox input:checked + .checkbox__box,
+.checkbox input:indeterminate + .checkbox__box {
+  background: var(--checkbox-on);
+}
+
+.checkbox:hover input:checked + .checkbox__box,
+.checkbox:hover input:indeterminate + .checkbox__box {
+  background: var(--checkbox-on-hover);
+}
+
+/* Tick */
+.checkbox input:checked + .checkbox__box::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--text-inverse);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Dash — some rows on the page selected, but not all */
+.checkbox input:indeterminate + .checkbox__box::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 8px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--text-inverse);
+}
+
+.checkbox input:focus-visible + .checkbox__box {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- row actions ---------- */
+
+.row-actions {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-2);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.row-actions img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  mix-blend-mode: multiply;
+}
+
+.row-actions:hover,
+.row-actions.is-open {
+  background: var(--bg-secondary);
+}
+
+/* Notes are truncated in the cell; the tooltip carries the full text. */
+.cell-notes {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 176px;
+}
+
+.pool__no-results {
+  padding: var(--space-10);
+  text-align: center;
+}

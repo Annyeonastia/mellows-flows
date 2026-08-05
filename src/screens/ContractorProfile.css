@@ -1,0 +1,387 @@
+/* Contractor profile drawer.
+   Geometry read off the draft frames 28868-140728 / 28933-248988 (1440-wide
+   frames, 560px panel inset 16px from the canvas edges). Colours that already
+   exist as Figma variables use tokens; the few that only appear in these draft
+   frames are inlined with a note, so they are easy to retoken later. */
+
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--service-bg-modal);
+  animation: profile-overlay-in var(--duration-base) var(--ease-standard);
+}
+
+.profile {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  bottom: var(--space-4);
+  width: 560px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-4);
+  background: var(--bg-primary);
+  overflow: hidden;
+  animation: profile-in var(--duration-base) var(--ease-standard);
+}
+
+.profile__close {
+  position: absolute;
+  top: var(--space-8);
+  right: var(--space-8);
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.profile__close:hover {
+  opacity: 1;
+}
+
+/* ---------- header ---------- */
+
+.profile__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-8) var(--space-10);
+}
+
+.profile__avatar {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-3);
+  /* Sampled from the draft frame — no Figma variable for it yet. */
+  background: #f0e7da;
+  color: var(--text-primary);
+  font-size: var(--font-size-28);
+  line-height: var(--line-height-32);
+  font-weight: var(--font-weight-medium);
+}
+
+.profile__ident {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  /* Leaves room for the close button on long names. */
+  padding-right: var(--space-8);
+}
+
+.profile__name {
+  margin: 0;
+  font-size: var(--font-size-24);
+  line-height: var(--line-height-32);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.profile__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+}
+
+.profile__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--border-primary);
+}
+
+.profile__ident .badge {
+  margin-top: var(--space-1);
+}
+
+/* ---------- tabs ---------- */
+
+.profile__tabs {
+  flex-shrink: 0;
+  align-self: flex-start;
+  display: flex;
+  margin: 0 var(--space-8);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+  /* Sampled from the draft frame. */
+  background: #ede0d2;
+}
+
+.profile__tab {
+  height: 40px;
+  padding: 0 var(--space-5);
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.profile__tab:hover:not(.is-active) {
+  background: var(--button-secondary-hover);
+}
+
+.profile__tab.is-active {
+  background: var(--orange-200);
+  color: var(--text-brand);
+}
+
+/* ---------- body ---------- */
+
+.profile__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-8);
+}
+
+.profile__section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.profile__label {
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.profile__email {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-brand);
+  text-decoration: none;
+}
+
+.profile__email:hover {
+  text-decoration: underline;
+}
+
+.profile__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.profile__link-chip,
+.profile__skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-2);
+  /* Sampled from the draft frames. */
+  background: #efe3d7;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.profile__link-chip {
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.profile__link-chip:hover {
+  background: var(--button-secondary-hover);
+}
+
+.profile__country {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.profile__flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.profile__note {
+  width: 100%;
+  height: 104px;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-3);
+  background: var(--bg-surface-primary);
+  color: var(--text-primary);
+  resize: none;
+  outline: none;
+}
+
+.profile__note::placeholder {
+  color: var(--text-tertiary);
+}
+
+.profile__note:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.profile__counter {
+  align-self: flex-end;
+  margin: 0;
+}
+
+/* ---------- activity ---------- */
+
+.profile__month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.profile__month-title {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.profile__feed {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile__event {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: var(--stroke-border) solid var(--border-secondary);
+}
+
+.profile__event:last-child {
+  border-bottom: none;
+}
+
+.profile__event-avatar {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  /* Sampled from the draft frame. */
+  background: #f0e7da;
+  color: var(--text-primary);
+}
+
+.profile__event-avatar.is-you {
+  background: var(--orange-200);
+  color: var(--text-brand);
+}
+
+.profile__event-text {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.profile__event-link {
+  color: var(--text-brand);
+}
+
+.profile__event-date {
+  white-space: nowrap;
+}
+
+/* ---------- footer ---------- */
+
+.profile__footer {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-8);
+}
+
+.profile__invite {
+  flex: 1;
+  height: 42px;
+  border-radius: var(--radius-2);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.profile__invite:hover {
+  background: var(--button-secondary-hover);
+}
+
+.profile__more {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-2);
+  background: var(--bg-secondary);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.profile__more:hover,
+.profile__more.is-open {
+  background: var(--button-secondary-hover);
+}
+
+/* Three dots, drawn rather than exported: the icon sits inside a component
+   instance in Figma and is not addressable through the MCP server. */
+.profile__more-dots,
+.profile__more-dots::before,
+.profile__more-dots::after {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+}
+
+.profile__more-dots {
+  position: relative;
+  display: block;
+}
+
+.profile__more-dots::before,
+.profile__more-dots::after {
+  content: "";
+  position: absolute;
+  top: 0;
+}
+
+.profile__more-dots::before {
+  left: -7px;
+}
+
+.profile__more-dots::after {
+  left: 7px;
+}
+
+@keyframes profile-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes profile-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,28 @@
+/* App-shell layout: the page itself never scrolls — the table owns its own
+   vertical and horizontal scrolling, as the design requires. */
+.app {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 100vh;
+  min-width: var(--canvas-width);
+  background: var(--bg-primary);
+}
+
+.app__main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header heights from Figma: 96px on the empty state, 172px on the pool. */
+.app__main {
+  --header-h: 96px;
+}
+
+.app__main:has(.header:not(.header--bare)) {
+  --header-h: 172px;
+}

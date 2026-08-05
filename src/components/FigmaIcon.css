@@ -1,0 +1,12 @@
+.fig-icon {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.fig-icon > img {
+  position: absolute;
+  display: block;
+  max-width: none;
+}

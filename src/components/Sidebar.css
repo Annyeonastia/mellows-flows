@@ -1,0 +1,133 @@
+.sidebar {
+  flex-shrink: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-9) var(--space-4) var(--space-4);
+  border-right: 1px solid var(--bg-secondary);
+  z-index: 30;
+  transition:
+    width var(--duration-slow) var(--ease-standard),
+    background-color var(--duration-slow) var(--ease-standard);
+}
+
+.sidebar--collapsed {
+  width: var(--sidebar-collapsed);
+  background: transparent;
+}
+
+.sidebar--expanded {
+  width: var(--sidebar-expanded);
+  background: var(--bg-surface-primary);
+}
+
+.sidebar__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* ---------- logo ---------- */
+
+.sidebar__logo {
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar--collapsed .sidebar__logo {
+  width: 40px;
+  justify-content: center;
+}
+
+.sidebar--expanded .sidebar__logo {
+  width: 160px;
+  padding-left: var(--space-2);
+}
+
+.sidebar__logo-full {
+  width: 113px;
+  height: 32px;
+  display: block;
+}
+
+.sidebar__logo-sign {
+  position: relative;
+  display: block;
+  width: 32px;
+  height: 31.5px;
+}
+
+.sidebar__logo-sign img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  max-width: none;
+  height: 100%;
+}
+
+.sidebar__logo-sign-l {
+  left: 0;
+  right: 25.71%;
+}
+
+.sidebar__logo-sign-r {
+  left: 25.71%;
+  right: 0;
+}
+
+/* ---------- nav ---------- */
+
+.sidebar__nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  border-radius: var(--radius-2);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.sidebar--collapsed .sidebar__item {
+  gap: var(--space-2);
+  justify-content: center;
+  padding: var(--space-2) var(--space-2-5);
+}
+
+.sidebar--expanded .sidebar__item {
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+}
+
+.sidebar__item:hover {
+  background: var(--button-ghost-hover);
+}
+
+.sidebar__item.is-active,
+.sidebar__item.is-active:hover {
+  background: var(--pearl-bush-400-20);
+}
+
+.sidebar__item:active {
+  background: var(--bg-secondary);
+}
+
+.sidebar__label {
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-22);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
