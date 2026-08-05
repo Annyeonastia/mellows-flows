@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // The demo is a GitHub project page at /mellows-flows/, so built assets must
-  // resolve against that sub-path. The dev server keeps serving from the root.
-  base: process.env.NODE_ENV === 'production' ? '/mellows-flows/' : '/',
+  // Netlify serves the site from the root. Set DEPLOY_BASE=/mellows-flows/ to
+  // build for a GitHub project page instead.
+  base: process.env.DEPLOY_BASE || '/',
   // Honour PORT so a second dev server can run alongside the default 5173 one.
   server: { port: Number(process.env.PORT) || 5173 },
 })
