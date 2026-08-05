@@ -8,6 +8,8 @@
   --orange-200: #f6d8ba;
   --pearl-bush-400-20: rgba(193, 148, 118, 0.2);
   --pearl-bush-400-24: rgba(193, 148, 118, 0.24);
+  --pearl-bush-400-16: rgba(193, 148, 118, 0.16);
+  --pearl-bush-400-12: rgba(193, 148, 118, 0.12);
   --pearl-bush-400-8: rgba(193, 148, 118, 0.08);
 
   /* ---------- Background ---------- */
@@ -113,6 +115,7 @@
   --radius-3-5: 14px;
   --radius-4: 16px;
   --radius-5: 20px;
+  --radius-6: 24px;
   --radius-full: 9999px;
 
   /* ---------- Typography ---------- */

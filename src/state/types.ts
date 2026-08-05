@@ -84,6 +84,13 @@ export type MatchSource = "My Pool" | "Mellow" | "LinkedIn" | "Internet";
 /** Not invited -> viewed on open -> invited after the CTA. */
 export type MatchStatus = "not-invited" | "viewed" | "invited";
 
+/** A chip in the side sheet that carries a greyed-out trailing value, e.g.
+    "Graphic Designer 2023–2025". */
+export interface MatchChip {
+  label: string;
+  meta?: string;
+}
+
 export interface AiMatch {
   id: string;
   name: string;
@@ -97,6 +104,20 @@ export interface AiMatch {
   status: MatchStatus;
   /** Orange dot on the avatar. */
   isNew: boolean;
+  /** Imported photo; initials stand in when there is none. */
+  photo?: string;
+  /** Photo doubles as a video intro — draws the play badge over the avatar. */
+  hasVideo?: boolean;
+  /** Star next to the name in the side sheet. */
+  inTalents?: boolean;
+  /** AI Breakdown card: the verdict word and the sentence after it. */
+  verdict: string;
+  breakdown: string;
+  links: string[];
+  country: string;
+  education: string[];
+  skills: string[];
+  workExperience: MatchChip[];
 }
 
 /** `dashboard` and `requests` are navigable but out of this prototype's scope. */

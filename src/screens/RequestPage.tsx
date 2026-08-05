@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useApp } from "../state/store";
 import { NEW_REQUEST_MATCHES, type AiMatch } from "../state/types";
+import { FigmaIcon } from "../components/FigmaIcon";
 import iconLock from "../assets/icons/icon-lock-20.svg";
+import iconSort from "../assets/icons/icon-sort-20.svg";
 import chevronLeft from "../assets/icons/chevron-left.svg";
 import "./RequestPage.css";
 
@@ -25,6 +27,7 @@ export function RequestPage() {
     useApp();
   const [tab, setTab] = useState<(typeof TABS)[number]>("AI matches");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sortAsc, setSortAsc] = useState(false);
   const isPrivate = requestDraft.privatePool;
 
   useEffect(() => {
@@ -39,7 +42,8 @@ export function RequestPage() {
   const sourced = isPrivate ? matches.filter((m) => m.source === "My Pool") : matches;
   // A freshly published request has only found its first matches; the rest are
   // there once it has been running.
-  const visible = requestPhase === "new" ? sourced.slice(0, NEW_REQUEST_MATCHES) : sourced;
+  const ordered = sortAsc ? [...sourced].sort((a, b) => a.score - b.score) : sourced;
+  const visible = requestPhase === "new" ? ordered.slice(0, NEW_REQUEST_MATCHES) : ordered;
   const hidden = matches.length - sourced.length;
 
   return (
@@ -57,6 +61,18 @@ export function RequestPage() {
       </header>
 
       <div className="rq__toolbar">
+        {/* Drawn in every 613 frame, but the frames never show what it opens.
+            Score is the only thing the list is ordered by, so it flips that. */}
+        <button
+          type="button"
+          className={`rq__sort${sortAsc ? " is-active" : ""}`}
+          aria-label="Sort by match"
+          aria-pressed={sortAsc}
+          onClick={() => setSortAsc((s) => !s)}
+        >
+          <FigmaIcon src={iconSort} size={20} inset={[20.83, 8.33, 20.83, 8.33]} expand={[6.43, 4.5]} />
+        </button>
+
         <div className="rq__tabs">
           {TABS.map((t) => (
             <button
@@ -135,16 +151,26 @@ export function RequestPage() {
 }
 
 function MatchCard({ match, onOpen }: { match: AiMatch; onOpen: () => void }) {
+  // "Не пишем From, рекомендации из Contractors подсвечиваем" — the canvas note
+  // next to the 613 frames: own-pool matches read "Contractors" in the brand
+  // colour, everything else names its source in grey.
   const inPool = match.source === "My Pool";
   return (
     <button type="button" className="rq__card" onClick={onOpen}>
-      <span className={`rq__avatar${match.isNew ? " is-new" : ""}`}>{initials(match.name)}</span>
+      <span className={`rq__avatar${match.isNew ? " is-new" : ""}`}>
+        {match.photo ? (
+          <img className="rq__photo" src={match.photo} alt="" />
+        ) : (
+          initials(match.name)
+        )}
+      </span>
       <span className="rq__card-body">
         <span className="rq__card-top">
           <span className="t-b1-medium">{match.name}</span>
           <span className="rq__dot" />
-          <span className="t-b3-regular u-secondary">{match.source}</span>
-          {inPool && <span className="rq__in-talents t-caption">In Talents</span>}
+          <span className={`t-b3-regular ${inPool ? "rq__source--pool" : "u-secondary"}`}>
+            {inPool ? "Contractors" : match.source}
+          </span>
         </span>
         <span className="rq__card-meta">
           <span className="rq__score t-b3-regular">{match.score}% match</span>

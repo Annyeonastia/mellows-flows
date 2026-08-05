@@ -1,5 +1,5 @@
-/* AIHR-613 candidate side sheet. Matches the Contractor profile drawer:
-   560 wide, inset 16, so the two drawers in the prototype read as one thing. */
+/* AIHR-613 candidate side sheet, built to `28432:196047`: 560 wide, inset 16,
+   with a blurred header and footer pinned around a scrolling body. */
 
 .ms {
   position: fixed;
@@ -23,29 +23,62 @@
   max-width: calc(100% - var(--space-8));
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-6);
-  overflow-y: auto;
-  border-radius: var(--radius-5);
+  overflow: hidden;
+  border-radius: var(--radius-4);
   background: var(--bg-primary);
+  box-shadow: 0 25px 50px -12px rgba(35, 34, 34, 0.25);
   animation: ms-slide var(--duration-slow) var(--ease-standard);
 }
+
+/* ---------- Header ---------- */
 
 .ms__head {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-8) var(--space-4);
+  background: var(--bg-primary-translucent);
+  backdrop-filter: blur(4px);
 }
 
 .ms__avatar {
-  width: 64px;
-  height: 64px;
+  position: relative;
+  width: 96px;
+  height: 96px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  border-radius: var(--radius-3);
+  overflow: hidden;
+  border-radius: var(--radius-4);
   background: var(--bg-surface-tertiary-2);
-  font-size: var(--font-size-18);
+}
+
+.ms__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ms__initials {
+  font-size: var(--font-size-24);
+}
+
+.ms__video {
+  position: absolute;
+  top: calc(50% + 26px);
+  left: calc(50% + 26px);
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  background: rgba(35, 34, 34, 0.64);
+}
+
+.ms__video img {
+  width: 16px;
+  height: 16px;
 }
 
 .ms__ident {
@@ -56,58 +89,78 @@
   gap: var(--space-1);
 }
 
+.ms__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  color: var(--text-primary);
+}
+
+.ms__star {
+  flex-shrink: 0;
+}
+
+.ms__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* The separator dot is drawn in the border colour, not the text colour. */
+.ms__sep {
+  color: var(--border-secondary);
+}
+
+.ms__statuses {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.ms__badge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-2-5);
+  background: var(--pearl-bush-400-12);
+}
+
+.ms__status--invited {
+  color: var(--text-brand);
+}
+
+.ms__status--viewed {
+  color: var(--text-secondary);
+}
+
 .ms__close {
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  padding: var(--space-2-5);
-  border-radius: var(--radius-2-5);
-  background: var(--button-secondary-default);
-  transition: background-color var(--duration-fast) var(--ease-standard);
+  border-radius: var(--radius-2);
+  transition: opacity var(--duration-fast) var(--ease-standard);
 }
 
 .ms__close:hover {
-  background: var(--button-secondary-hover);
+  opacity: 0.6;
 }
 
-.ms__chips,
-.ms__skills {
+/* ---------- Body ---------- */
+
+.ms__body {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.ms__chip {
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-2);
-  background: var(--bg-secondary-translucent);
-}
-
-.ms__score {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-2);
-  background: var(--bg-surface-success-translucent);
-  color: var(--text-success);
-}
-
-.ms__in-talents {
-  padding: 3px var(--space-2);
-  border-radius: var(--radius-full);
-  background: var(--orange-200);
-  color: var(--text-brand);
-}
-
-.ms__status {
-  padding: var(--space-1) var(--space-2-5);
-  border-radius: var(--radius-2);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-.ms__status--invited {
-  background: var(--bg-surface-success-translucent);
-  color: var(--text-success);
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-8);
+  overflow-y: auto;
 }
 
 .ms__section {
@@ -117,22 +170,206 @@
 }
 
 .ms__label {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--text-secondary);
 }
 
-.ms__footer {
-  margin-top: auto;
-  padding-top: var(--space-4);
+/* ---------- AI Breakdown ---------- */
+
+.ms__ai {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-6);
+  background: var(--bg-merino-100);
 }
 
-.ms__invited {
-  padding: var(--space-4);
-  border-radius: var(--radius-3);
-  background: var(--bg-surface-success-translucent);
+.ms__score {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.ms__score-ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.ms__score-track,
+.ms__score-arc {
+  fill: none;
+  stroke-width: 6;
+}
+
+.ms__score-track {
+  stroke: var(--pearl-bush-400-24);
+}
+
+.ms__score-arc {
+  stroke: var(--text-success);
+  stroke-linecap: round;
+}
+
+.ms__score-value {
+  position: relative;
+  font-size: var(--font-size-18);
+  font-weight: 600;
   color: var(--text-success);
-  text-align: center;
+}
+
+.ms__ai-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+}
+
+.ms__verdict {
+  font-weight: 500;
+}
+
+.ms__details {
+  align-self: flex-start;
+  color: var(--text-secondary);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.ms__details:hover {
+  color: var(--text-primary);
+}
+
+/* ---------- Chips ---------- */
+
+.ms__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ms__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-3);
+  background: var(--pearl-bush-400-16);
+  color: var(--text-primary);
+}
+
+.ms__chip-meta {
+  color: var(--text-secondary);
+}
+
+.ms__chip--link {
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.ms__chip--link:hover {
+  background: var(--pearl-bush-400-24);
+}
+
+.ms__country {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- CV ---------- */
+
+.ms__cv-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ms__cv-download {
+  color: var(--text-brand);
+}
+
+.ms__cv-download:hover {
+  text-decoration: underline;
+}
+
+.ms__cv {
+  position: relative;
+  height: 640px;
+  padding: var(--space-2);
+  overflow: hidden;
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-3);
+  background: var(--bg-surface-primary);
+}
+
+.ms__cv-page {
+  width: 100%;
+  display: block;
+}
+
+.ms__pager {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  display: flex;
+  height: 32px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.ms__pager-item {
+  display: grid;
+  place-items: center;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.ms__pager-item.is-current {
+  background: var(--orange-200);
+  color: var(--text-brand);
+}
+
+/* ---------- Footer ---------- */
+
+.ms__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-8) var(--space-8);
+  background: var(--bg-primary-translucent);
+  backdrop-filter: blur(4px);
+}
+
+.ms__more-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ms__more {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-2);
+  background: var(--button-secondary-default);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.ms__more:hover {
+  background: var(--button-secondary-hover);
+}
+
+.ms__menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + var(--space-1));
+  min-width: 180px;
 }
 
 @keyframes ms-fade {
