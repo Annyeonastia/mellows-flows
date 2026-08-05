@@ -73,16 +73,21 @@ interface MatchSeed {
 }
 
 /* Statuses are spread across the list on purpose: the sheet's CTA follows the
-   state a match is already in, so the demo needs a person for each frame —
-   "Invite to apply", "Send email" and "Add to Contractors" all reachable
-   without clicking one person through the whole chain. */
+   state a match is already in, so every button drawn in 613 belongs to a
+   different person rather than to one person clicked through the chain.
+     Ismael   в Contractors, не приглашён → Invite to apply
+     Сильвия  не в Contractors, не приглашена → Invite to apply
+     Розмари  в Contractors, приглашена → Send email
+     Клинт    не в Contractors, приглашён → Add to Contractors
+     Билл     не в Contractors, просмотрен → View profile тёмная
+     Энди     в Contractors, просмотрен → View profile светлая */
 const SEEDS: MatchSeed[] = [
   { id: "m1", name: "Ismael Bruen", source: "Mellow", score: 99, experience: "5.5 years", rate: "$45/hr", isNew: true, status: "not-invited", inTalents: true },
   { id: "m2", name: "Silvia Pagac", source: "Mellow", score: 88, experience: "1 year", rate: null, isNew: false, photo: photoSilvia, status: "not-invited", inTalents: false },
   { id: "m3", name: "Rosemary Wilderman-Crooks", source: "Mellow", score: 86, experience: "3 years", rate: "$25/hr", isNew: false, status: "invited", inTalents: true },
   { id: "m4", name: "Clint Boyle", source: "LinkedIn", score: 85, experience: "2 years", rate: null, isNew: true, photo: photoClint, status: "invited", inTalents: false },
   { id: "m5", name: "Bill Haley", source: "LinkedIn", score: 82, experience: "1 year", rate: null, isNew: true, status: "viewed", inTalents: false },
-  { id: "m6", name: "Andy Stiedemann", source: "Mellow", score: 80, experience: "1 year", rate: "$32/hr", isNew: false, status: "not-invited", inTalents: false },
+  { id: "m6", name: "Andy Stiedemann", source: "Mellow", score: 80, experience: "1 year", rate: "$32/hr", isNew: false, status: "viewed", inTalents: true },
 ];
 
 /** AI matches as listed on the Live Request frames. */

@@ -96,7 +96,7 @@ interface AppActions {
   publishRequest: () => void;
   requestPhase: RequestPhase;
   setRequestPhase: (phase: RequestPhase) => void;
-  /** Opening a match marks it viewed, unless it is already invited. */
+  /** Opens the side sheet; the match keeps whatever status it already has. */
   openMatch: (id: string) => void;
   /** Add to / Delete from Contractors, from the side sheet's "..." menu. */
   setInTalents: (id: string, value: boolean) => void;
@@ -297,12 +297,10 @@ export function AppProvider({
 
   const publishRequest = useCallback(() => setOverlay({ kind: "none" }), []);
 
-  const openMatch = useCallback((id: string) => {
-    setMatches((prev) =>
-      prev.map((m) => (m.id === id && m.status === "not-invited" ? { ...m, status: "viewed" } : m)),
-    );
-    setOverlay({ kind: "match", id });
-  }, []);
+  /* Opening no longer marks a match viewed: the status decides which button the
+     sheet shows, and each match is meant to stay in the one state it seeds
+     with, so looking at someone must not move them to another frame. */
+  const openMatch = useCallback((id: string) => setOverlay({ kind: "match", id }), []);
 
   /** Add to / Delete from Contractors. Being in Contractors is what the star,
       the "Contractors" label and private matching all read from. */

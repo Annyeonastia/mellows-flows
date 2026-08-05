@@ -7,6 +7,8 @@ import type { MatchChip } from "../state/types";
 import iconClose from "../assets/icons/icon-close-20.svg";
 import iconPlay from "../assets/icons/icon-play-16.svg";
 import iconArrowUpRight from "../assets/icons/icon-arrow-up-right-16.svg";
+import iconArrowUpRight20 from "../assets/icons/icon-arrow-up-right-20.svg";
+import iconArrowUpRight20Inverse from "../assets/icons/icon-arrow-up-right-20-inverse.svg";
 import iconMore from "../assets/icons/icon-more-20.svg";
 import iconStar from "../assets/icons/icon-star-14.png";
 import flagGe from "../assets/icons/flag-ge.png";
@@ -88,14 +90,27 @@ export function MatchSheet({ id }: { id: string }) {
   const invited = match.status === "invited";
   const inTalents = Boolean(match.inTalents);
 
-  /* One scenario per profile, read off the 613 frames: the CTA follows the
-     state rather than offering every action at once.
-       not invited                 → Invite to apply   (28432:196033)
-       invited, not in Contractors → Add to Contractors (28432:196019)
-       invited, already there      → Send email         (28698:161150)
-     The menu carries the rest, and Send email stays disabled until the person
-     has actually been invited — greyed out in `28698:163608`. */
-  const cta = !invited ? "Invite to apply" : inTalents ? "Send email" : "Add to Contractors";
+  /* One scenario per profile, read off the 613 frames. Every frame fits this
+     grid, with `viewed` as its own row — that is what tells the two
+     `View profile` frames apart from the plain "not invited" ones:
+
+                    | not in Contractors   | in Contractors
+       not invited  | Invite to apply      | Invite to apply     196033 / 162947
+       viewed       | View profile тёмная  | View profile светлая 163608 / 250976
+       invited      | Add to Contractors   | Send email          196019 / 161150
+
+     The menu carries whatever the button does not, and Send email stays
+     disabled until the person has been invited — greyed out in `28698:163608`. */
+  const viewed = match.status === "viewed";
+  const cta = invited
+    ? inTalents
+      ? "Send email"
+      : "Add to Contractors"
+    : viewed
+      ? "View profile"
+      : "Invite to apply";
+  // The light button on `28933:250976`: already in the pool and already seen.
+  const ctaVariant = viewed && inTalents ? "secondary" : "primary";
 
   const menu: { label: string; disabled?: boolean; danger?: boolean }[] = [
     { label: "Send email", disabled: !invited },
@@ -260,14 +275,30 @@ export function MatchSheet({ id }: { id: string }) {
         <footer className="ms__footer">
           {/* The CTA reports the state the match is already in; it does not walk
               one person through the states. */}
-          <Button fullWidth onClick={() => pick(cta)}>
+          {/* Main CTA per `28698:165524`: 42 high, 20 side padding, radius 8,
+              label 16/22 and the arrow as a 20px box with an 8px gap. */}
+          <Button
+            size="md"
+            variant={ctaVariant}
+            fullWidth
+            className="ms__cta"
+            onClick={() => pick(cta)}
+          >
             {cta}
+            {cta === "View profile" && (
+              <FigmaIcon
+                src={ctaVariant === "secondary" ? iconArrowUpRight20 : iconArrowUpRight20Inverse}
+                size={20}
+                inset={[29.17, 29.17, 29.17, 29.17]}
+                expand={[10.8, 10.8]}
+              />
+            )}
           </Button>
 
           <div className="ms__more-wrap">
             <button
               type="button"
-              className="ms__more"
+              className={`ms__more${menuOpen ? " is-open" : ""}`}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               aria-label="More actions"

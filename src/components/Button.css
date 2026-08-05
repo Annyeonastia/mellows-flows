@@ -13,6 +13,14 @@
     opacity var(--duration-fast) var(--ease-standard);
 }
 
+/* Keeps a trailing icon on the label's line — a block-level icon inside this
+   span would otherwise stack under the text and stretch the button. */
+.btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 /* ---------- sizes ---------- */
 
 .btn--xl {

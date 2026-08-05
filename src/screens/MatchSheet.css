@@ -346,6 +346,13 @@
   backdrop-filter: blur(4px);
 }
 
+/* Main CTA geometry from `28698:165524`. */
+.ms__cta {
+  height: 42px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-2);
+}
+
 .ms__more-wrap {
   position: relative;
   flex-shrink: 0;
@@ -363,6 +370,11 @@
 
 .ms__more:hover {
   background: var(--button-secondary-hover);
+}
+
+/* Pressed while its menu is open, as drawn on `28933:250976`. */
+.ms__more.is-open {
+  background: var(--button-secondary-pressed);
 }
 
 .ms__menu {

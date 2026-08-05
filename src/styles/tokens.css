@@ -81,6 +81,8 @@
   --button-primary-active: #151414;
   --button-secondary-hover: #e4d3c4;
   --button-secondary-active: #dbc7b5;
+  /* button/secondary/pressed — the "..." button while its menu is open. */
+  --button-secondary-pressed: #d3b69e;
   --button-ghost-hover: rgba(193, 148, 118, 0.12);
   --button-disabled-bg: #e6ded4;
   --button-disabled-text: rgba(35, 34, 34, 0.35);
