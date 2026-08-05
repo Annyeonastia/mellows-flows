@@ -295,19 +295,6 @@
   color: var(--text-brand);
 }
 
-.rq__status {
-  flex-shrink: 0;
-  padding: var(--space-1) var(--space-2-5);
-  border-radius: var(--radius-2);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-.rq__status--invited {
-  background: var(--bg-surface-success-translucent);
-  color: var(--text-success);
-}
-
 .rq__total,
 .rq__empty {
   margin-top: var(--space-1);

@@ -215,11 +215,6 @@ function MatchCard({
           </span>
         </span>
       </span>
-      {match.status !== "not-invited" && (
-        <span className={`rq__status rq__status--${match.status} t-caption`}>
-          {match.status === "invited" ? "Invited" : "Viewed"}
-        </span>
-      )}
       </button>
 
       {/* Checkbox Atom, drawn at the right edge of every row on the Public
