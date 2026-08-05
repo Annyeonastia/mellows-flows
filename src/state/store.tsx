@@ -98,7 +98,6 @@ interface AppActions {
   setRequestPhase: (phase: RequestPhase) => void;
   /** Opening a match marks it viewed, unless it is already invited. */
   openMatch: (id: string) => void;
-  inviteMatch: (id: string) => void;
 }
 
 export interface AddOptions {
@@ -303,10 +302,6 @@ export function AppProvider({
     setOverlay({ kind: "match", id });
   }, []);
 
-  const inviteMatch = useCallback((id: string) => {
-    setMatches((prev) => prev.map((m) => (m.id === id ? { ...m, status: "invited" } : m)));
-  }, []);
-
   const value = useMemo(
     () => ({
       screen,
@@ -347,7 +342,6 @@ export function AppProvider({
       createRequest,
       publishRequest,
       openMatch,
-      inviteMatch,
     }),
     [
       screen,
@@ -387,7 +381,6 @@ export function AppProvider({
       createRequest,
       publishRequest,
       openMatch,
-      inviteMatch,
     ],
   );
 

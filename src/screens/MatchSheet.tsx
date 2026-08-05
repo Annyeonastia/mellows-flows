@@ -63,7 +63,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
  * CTA invites and then turns into "Send email", as the Invited frame draws it.
  */
 export function MatchSheet({ id }: { id: string }) {
-  const { matches, inviteMatch, closeOverlay, notify } = useApp();
+  const { matches, closeOverlay, notify } = useApp();
   const match = matches.find((m) => m.id === id);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,6 +86,25 @@ export function MatchSheet({ id }: { id: string }) {
 
   if (!match) return null;
   const invited = match.status === "invited";
+  const inTalents = Boolean(match.inTalents);
+
+  /* One scenario per profile, read off the 613 frames: the CTA follows the
+     state rather than offering every action at once.
+       not invited                 → Invite to apply   (28432:196033)
+       invited, not in Contractors → Add to Contractors (28432:196019)
+       invited, already there      → Send email         (28698:161150)
+     The menu carries the rest, and Send email stays disabled until the person
+     has actually been invited — greyed out in `28698:163608`. */
+  const cta = !invited ? "Invite to apply" : inTalents ? "Send email" : "Add to Contractors";
+
+  const menu: { label: string; disabled?: boolean; danger?: boolean }[] = [
+    { label: "Send email", disabled: !invited },
+    { label: "Download CV" },
+    inTalents
+      ? { label: "Delete from Contractors", danger: true }
+      : { label: "Add to Contractors" },
+    // Whatever the CTA already offers has no business repeating in the menu.
+  ].filter((item) => item.label !== cta);
 
   const pick = (label: string) => {
     setMenuOpen(false);
@@ -224,11 +243,10 @@ export function MatchSheet({ id }: { id: string }) {
         </div>
 
         <footer className="ms__footer">
-          <Button
-            fullWidth
-            onClick={() => (invited ? pick("Send email") : inviteMatch(match.id))}
-          >
-            {invited ? "Send email" : "Invite to apply"}
+          {/* The CTA reports the state the match is already in; it does not walk
+              one person through the states. */}
+          <Button fullWidth onClick={() => pick(cta)}>
+            {cta}
           </Button>
 
           <div className="ms__more-wrap">
@@ -245,15 +263,16 @@ export function MatchSheet({ id }: { id: string }) {
 
             {menuOpen && (
               <div className="ms__menu row-menu" role="menu">
-                {["Send email", "Download CV", "Add to Contractors"].map((label) => (
+                {menu.map((item) => (
                   <button
-                    key={label}
+                    key={item.label}
                     type="button"
                     role="menuitem"
-                    className="row-menu__item t-b2-regular"
-                    onClick={() => pick(label)}
+                    className={`row-menu__item t-b2-regular${item.danger ? " is-danger" : ""}`}
+                    disabled={item.disabled}
+                    onClick={() => pick(item.label)}
                   >
-                    {label}
+                    {item.label}
                   </button>
                 ))}
               </div>
