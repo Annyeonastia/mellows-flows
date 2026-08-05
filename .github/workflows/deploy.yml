@@ -25,7 +25,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Pages serves the site from /mellows-flows/, Netlify from the root.
       - run: npm run build
+        env:
+          DEPLOY_BASE: /mellows-flows/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
