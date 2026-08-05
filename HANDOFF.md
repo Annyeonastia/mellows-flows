@@ -12,12 +12,78 @@ npm run build    # tsc -b && vite build — держать зелёным
 
 Дев-ярлыки в адресной строке: `#pool` открывает таблицу сразу, минуя импорт;
 `#live` — реквест, который уже поработал (все матчи, состояние Live Request);
-`#gallery` показывает иллюстрации отдельно.
+`#gallery` показывает иллюстрации отдельно. Ярлык читается при монтировании —
+после смены хеша нужен `reload`.
 
 Стек: Vite + React + TypeScript, **чистый CSS с переменными**. Tailwind не ставить.
-Репозиторий `Annyeonastia/mellows-flows`, ветка `main`. Пуш в `main` запускает
-GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows-flows/>
-(`DEPLOY_BASE=/mellows-flows/`). `dist` в `.gitignore`.
+
+**Деплой работает.** Репозиторий `Annyeonastia/mellows-flows`, ветка `main`.
+Пуш в `main` запускает `.github/workflows/deploy.yml` и раскатывает
+<https://annyeonastia.github.io/mellows-flows/> (сборка с `DEPLOY_BASE=/mellows-flows/`,
+прогон ~40 секунд). `dist` в `.gitignore`. Рядом лежит `netlify.toml` — тот же
+`npm run build`, но с базой `/` и SPA-редиректом; подключён ли сайт в Netlify,
+из репозитория не видно.
+
+---
+
+## Карта файлов
+
+```text
+src/
+  App.tsx              роутер экранов и оверлеев, дев-ярлыки #pool / #live / #gallery
+  state/
+    store.tsx          весь стейт: screen, overlay, contractors, requestDraft,
+                       request, matches, requestPhase, снеки (notify / toast)
+    types.ts           Contractor, AiMatch, RequestRecord, RequestDraft, Screen, Overlay
+    filters.ts         модель фильтров + summarize() для тултипа
+  screens/
+    ContractorPool     обвязка страницы: шапка, кнопки импорта, снеки
+    PoolTable          таблица: sticky-колонки, поиск, чекбоксы, меню ⋮, пагинация
+    FilterPanel        боковая панель фильтров, 6 групп
+    ContractorProfile  правая шторка профиля (по черновым макетам)
+    RequestPage        страница реквеста: табы, карточки матчей, New / Live
+    EditRequest        Edit Request по фреймам [by M], public и private
+    MatchSheet         шторка кандидата (AIHR-613)
+    EmptyState         стартовый экран
+    SectionPlaceholder заглушка Dashboard / Requests
+  flows/
+    UploadCvsFlow      Flow 1 — загрузка CV
+    AddEmailsFlow      Flow 2 — приглашение по email
+    NewRequestFlow     попап New Request
+    InvitedModal, DeleteContractorModal, DeleteManyModal, MissingInfoModal
+  components/          Button, Modal, FullScreenModal, Alert, Tooltip, Sidebar,
+                       Header, MultiSelect, EmailTagInput, FileDropzone,
+                       DonutLoader, FigmaIcon, Highlight, RowActionsMenu,
+                       Intercom, SendIllustration
+  lib/
+    emails.ts          разбор и валидация адресов, имя из email
+    files.ts           сценарный набор файлов из макета + реальный drag & drop
+    cv.ts              текстовая заглушка вместо настоящего файла CV
+    requestCoverage.ts чипы покрытия в попапе — поиск по ключевым словам
+  data/
+    contractors.ts     20 строк из фрейма Default
+    profile.ts         профиль, выведенный из данных строки
+    request.ts         реквест и 6 матчей из Live-фреймов
+  styles/              tokens.css (переменные), global.css, fonts.css
+  assets/              icons/*.svg, illustrations/*.png + loading.gif
+  dev/IllustrationGallery.tsx   то, что показывает #gallery
+```
+
+## Карта флоу Generate request
+
+| Экран | Файл | Нода Figma |
+|---|---|---|
+| Попап New Request | `flows/NewRequestFlow.{tsx,css}` | `28285:103246` пустой, `28285:103272` заполненный, `28291:125565` приватный |
+| Правила чипов | `lib/requestCoverage.ts` | выверено по `28285:103272` |
+| Edit request | `screens/EditRequest.{tsx,css}` | `28328:286048` public, `28328:286942` private |
+| Карточка Controls card | там же | компонент `27596:188100`, вариант `667×52` |
+| Страница реквеста | `screens/RequestPage.{tsx,css}` | `28285:104450` New Off, `28300:193588` Live Off, `28300:194049` Live On |
+| Шторка кандидата | `screens/MatchSheet.{tsx,css}` | AIHR-613, `28432:196004` |
+| Данные | `data/request.ts` | реквест и 6 матчей из Live-фреймов |
+| Стор | `state/store.tsx` | `requestDraft`, `request`, `matches`, `requestPhase` |
+
+Секция AIHR-614 целиком — `28291:125670`. Внутри есть фреймы с пометкой `[by M]`
+(вариант Марыны) и секция `UNDER REVIEW` — последнюю не трогать, она черновая.
 
 ---
 
@@ -47,24 +113,6 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
 
 ---
 
-## Карта флоу Generate request
-
-| Экран | Файл | Нода Figma |
-|---|---|---|
-| Попап New Request | `flows/NewRequestFlow.{tsx,css}` | `28285:103246` пустой, `28285:103272` заполненный, `28291:125565` приватный |
-| Правила чипов | `lib/requestCoverage.ts` | выверено по `28285:103272` |
-| Edit request | `screens/EditRequest.{tsx,css}` | `28328:286048` public, `28328:286942` private |
-| Карточка Controls card | там же | компонент `27596:188100`, вариант `667×52` |
-| Страница реквеста | `screens/RequestPage.{tsx,css}` | `28285:104450` New Off, `28300:193588` Live Off, `28300:194049` Live On |
-| Шторка кандидата | `screens/MatchSheet.{tsx,css}` | AIHR-613, `28432:196004` |
-| Данные | `data/request.ts` | реквест и 6 матчей из Live-фреймов |
-| Стор | `state/store.tsx` | `requestDraft`, `request`, `matches`, `requestPhase` |
-
-Секция AIHR-614 целиком — `28291:125670`. Внутри есть фреймы с пометкой `[by M]`
-(вариант Марыны) и секция `UNDER REVIEW` — последнюю не трогать, она черновая.
-
----
-
 ## Что осталось
 
 - **Разделы `Dashboard` и `Requests`** — по-прежнему заглушка `SectionPlaceholder`.
@@ -73,27 +121,26 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
   в сторе). Свежесозданный показывает первые 2 матча, `#live` — все. Автоперехода
   нет по решению дизайнера, а управления для переключения в макетах нет. Чем
   переключать в проде — открытый вопрос
-- **Табы `Applied` / `Shortlisted` / `Offer received`** — кликаются, но пустые
+- **Табы `Applied` / `Shortlisted` / `Offer received`** — кликаются, но данных за ними
+  нет: показывают строку «Nothing in … yet — this prototype covers AI matches»
 - **Карточки `Overview` и `Details`** в Edit не сделаны: их нет во фреймах `[by M]`,
   по которым собран экран
-- **`Cancel` в шапке карточки Candidate и `Desktop preview`** ничего не делают —
-  в макетах не нарисовано, что за ними
+- **`Cancel` в шапке карточки Candidate и `Desktop preview` в шапке экрана Edit**
+  ничего не делают — в макетах не нарисовано, что за ними
 - **Состояния генерации нет.** Между попапом и реквестом переход мгновенный, это
   единственное место, где флоу читается рвано. В dev-секции есть готовые
   `Popup - Loading` и `Popup - Generating`, `loading.gif` в проекте уже лежит
+- **Нижняя панель пагинации не сделана.** Решение дублировать принято, но в коде
+  по-прежнему одна панель `Showing 1-N of N` + `Rows` — над таблицей, в тулбаре
 - **Dev-секция `28480-320967`** — то, что уже сделано в проде: `Loading`, `Error`,
   `Re-Filled`, `Generating`, `Tooltips`, мобильные 402 px, автосохранение,
   свёрнутые секции, выбор компании и бюджета, Landing, Sign Up. Это отдельный
   крупный блок; решили не трогать — прототип показывает то, чего в проде ещё нет
-
 - **Профиль ждёт чистовых макетов.** Черновики были 1440-широкие, шторка свёрстана
   560px с отступом 16 — под чистовые переписываются `ContractorProfile.{tsx,css}`
   и `data/profile.ts`
-- **Нижняя панель пагинации.** В макетах `Showing 1-N of N` + `Rows 20` продублированы
-  под таблицей, в коде только верхняя. Нужно решение дизайнера, дублировать ли
 - **Содержимое меню `AI Scout` и меню профиля** — заглушечное. В Figma, по словам
   дизайнера, есть вариант с выпадающим меню профиля; ноду не нашёл, нужен номер
-- **Деплой** — не делали, ждёт решения
 
 ---
 
@@ -134,6 +181,9 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
   role, time commitment, budget, location. Меняя правила, проверять этот случай
 - **Приватность считается от данных, а не от текста макета.** Баннер сам считает,
   сколько матчей скрыто, вместо зашитого в макет числа
+- **Иллюстрации остаются 3x PNG.** Вектор не нужен: «нам надо просто показать».
+  `delete-profile.png`, `send.png`, `loading.gif` — трогать не надо
+- **Нижнюю пагинацию дублируем** — она есть в макетах, значит делаем (ещё не сделано)
 
 ---
 
@@ -143,7 +193,7 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
 - **Анимация загрузки — это GIF-заливка.** `get_design_context` отдаёт только первый кадр как PNG, `get_motion_context` пустой. Настоящий файл достаётся через `download_assets` → `rawImages` (там `format: "gif"`). Лежит в `src/assets/illustrations/loading.gif`, 153 кадра
 - **Ноды внутри инстансов компонентов не адресуются** ни `get_design_context`, ни `get_screenshot`. Цвета и мелкие иконки проще снимать пиксельно: положить PNG в `public/`, прочитать через canvas в `javascript_tool`
 - **`download_assets` обрезает выдачу на 20 SVG** — на больших фреймах бесполезен для иконок
-- **zsh не разбивает строку на слова.** В циклах использовать массивы: `ids=(a b c); for id in "${ids[@]}"`
+- **zsh не разбивает строку на слова.** В циклах использовать массивы: `ids=(a b c); for id in "${ids[@]}"`. И `grep --include=*.tsx` без кавычек zsh тоже съедает — писать `--include="*.tsx"`
 - **Скриншоты из Browser-панели приходят уменьшенными и иногда запаздывают.** Для проверки надёжнее замерять DOM через `javascript_tool`, а не смотреть картинку
 - **`getComputedStyle` врёт, пока вкладка скрыта.** При `document.visibilityState === "hidden"` браузер не пересчитывает стили: computed-значения и `getBoundingClientRect` отдают состояние на момент последней отрисовки, и даже инлайновый `!important` не виден. Лечится одним `computer{action:"screenshot"}` — он заставляет отрисовку, после него замеры честные. Структура DOM (классы, `textContent`, `matches()`) при этом всегда актуальна
 - **React-стейт не успевает к синхронному чтению.** После `.click()` результат читать в отдельном вызове или через `await new Promise(r => setTimeout(r, 60))`
@@ -157,12 +207,6 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
 
 **Всё берём из макетов, ничего не выдумываем.** Если элемента в Figma нет —
 не сочинять его, а спросить номер ноды.
-
-## Решённое
-
-- **Иллюстрации остаются 3x PNG.** Вектор не нужен: «нам надо просто показать».
-  `delete-profile.png`, `send.png`, `loading.gif` — трогать не надо
-- **Нижнюю пагинацию дублируем** — она есть в макетах, значит делаем
 
 ## Открытые вопросы к дизайнеру
 
@@ -178,7 +222,7 @@ GitHub Actions и раскатывает <https://annyeonastia.github.io/mellows
    управления нет
 5. **Куда ведёт `Close` на Edit.** В шапке Edit только стрелка назад, крестика нет
    ни в основных фреймах, ни в `[by M]`. Сейчас стрелка = `Back` в попап
-2. **Меню под `AI Scout` — нужен номер ноды.** В макетах не нашёл. Пока его нет,
+6. **Меню под `AI Scout` — нужен номер ноды.** В макетах не нашёл. Пока его нет,
    кнопка остаётся без выпадашки — пункты не выдумывать.
    Меню под аватаром делать по варианту `profileDropdown` во фрейме `21347-37062`:
    `Profile Name`, `jessica.martinez@gmail.com`, `Go to profile`, `Logout`
