@@ -1,0 +1,322 @@
+/* Edit request — 28328:286048 (public) / 28328:286942 (private).
+   Two columns under a 100px header: the form at 667 and the phone preview at
+   425, 36 apart, on the Merino ground. */
+
+.er {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-merino-100);
+  animation: fsm-in var(--duration-base) var(--ease-standard);
+}
+
+.er__header {
+  flex-shrink: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-18);
+  background: var(--bg-primary-translucent);
+  backdrop-filter: var(--header-blur);
+  -webkit-backdrop-filter: var(--header-blur);
+  border-bottom: var(--stroke-border) solid var(--border-primary);
+}
+
+.er__header-left,
+.er__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.er__back {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-3-5);
+  background: var(--button-secondary-default);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.er__back:hover {
+  background: var(--button-secondary-hover);
+}
+
+.er__preview-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- columns ---------- */
+
+.er__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  padding: var(--space-8) var(--space-18);
+  overflow-y: auto;
+}
+
+.er__col-form {
+  width: 667px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.er__col-preview {
+  width: 425px;
+  flex-shrink: 0;
+}
+
+/* ---------- privacy control ---------- */
+
+.er__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 52px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-3);
+  background: var(--bg-primary);
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.er__controls.is-on {
+  background: var(--orange-200);
+}
+
+.er__toggle {
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border-radius: var(--radius-full);
+  background: var(--bg-fill-control-default);
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.er__toggle.is-on {
+  background: var(--button-brand-default);
+}
+
+.er__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--bg-fill-control-indicator);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.er__toggle.is-on .er__knob {
+  transform: translateX(16px);
+}
+
+.er__alert {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--stroke-border) solid var(--border-warning);
+  border-radius: var(--radius-3);
+  background: var(--bg-surface-warning);
+  color: var(--text-warning);
+}
+
+.er__alert img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ---------- form card ---------- */
+
+.er__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border-radius: var(--radius-5);
+  background: var(--bg-primary);
+}
+
+.er__card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.er__card-head h2 {
+  flex: 1;
+}
+
+.er__card-icon {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--icon-primary);
+}
+
+.er__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.er__input,
+.er__multiselect {
+  min-height: 52px;
+  padding: var(--space-3) var(--space-4);
+  border: var(--stroke-border) solid var(--border-input);
+  border-radius: var(--radius-3);
+  background: var(--bg-surface-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family-body);
+}
+
+.er__input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.er__multiselect,
+.er__tiles,
+.er__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.er__tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.er__tile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 56px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-3);
+  background: var(--bg-secondary);
+  text-align: left;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.er__tile.is-on {
+  background: var(--orange-200);
+}
+
+.er__radio {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--pearl-bush-400-24);
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.er__tile.is-on .er__radio {
+  background: var(--bg-fill-control-indicator);
+  box-shadow: inset 0 0 0 5px var(--button-brand-default);
+}
+
+.er__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  border-radius: var(--radius-2);
+  background: var(--bg-secondary-translucent);
+  color: var(--text-primary);
+}
+
+.er__chip.is-static {
+  padding: var(--space-1) var(--space-3);
+}
+
+.er__chip.is-outline {
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  border: var(--stroke-border) solid var(--border-primary);
+}
+
+.er__chip img {
+  width: 10px;
+  height: 10px;
+  display: block;
+  opacity: 0.7;
+}
+
+.er__chip button:hover img {
+  opacity: 1;
+}
+
+/* ---------- phone preview ---------- */
+
+.er__phone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-6, 24px);
+  background: var(--bg-primary);
+}
+
+.er__phone-logo {
+  width: 36px;
+  margin: var(--space-4) 0 var(--space-2) var(--space-4);
+}
+
+.er__phone-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border-radius: var(--radius-4);
+  background: var(--bg-surface-primary);
+}
+
+.er__phone-summary {
+  color: var(--text-primary);
+}
+
+.er__show-more {
+  align-self: flex-start;
+  text-decoration: underline;
+  color: var(--text-primary);
+}
+
+.er__phone-label {
+  margin-top: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.er__phone-value {
+  color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .er,
+  .er__toggle,
+  .er__knob,
+  .er__controls,
+  .er__tile {
+    animation: none;
+    transition: none;
+  }
+}

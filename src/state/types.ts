@@ -58,8 +58,42 @@ export interface RequestDraft {
 
 export const EMPTY_REQUEST_DRAFT: RequestDraft = { description: "", privatePool: false };
 
+export type ExperienceLevel = "Junior" | "Mid-level" | "Senior" | "Top-tier";
+
+/** The request produced from a draft, as drawn on the Edit request frames. */
+export interface RequestRecord {
+  title: string;
+  summary: string;
+  experience: ExperienceLevel;
+  languages: string[];
+  skills: string[];
+  projectType: string;
+  workload: string;
+}
+
+/** Where an AI match came from. "My Pool" is the user's own Contractor Pool. */
+export type MatchSource = "My Pool" | "Mellow" | "LinkedIn" | "Internet";
+
+/** Not invited -> viewed on open -> invited after the CTA. */
+export type MatchStatus = "not-invited" | "viewed" | "invited";
+
+export interface AiMatch {
+  id: string;
+  name: string;
+  source: MatchSource;
+  /** Percentage shown in the green "N% match" chip. */
+  score: number;
+  role: string;
+  experience: string;
+  /** null renders "Contact for rate". */
+  rate: string | null;
+  status: MatchStatus;
+  /** Orange dot on the avatar. */
+  isNew: boolean;
+}
+
 /** `dashboard` and `requests` are navigable but out of this prototype's scope. */
-export type Screen = "empty" | "pool" | "dashboard" | "requests";
+export type Screen = "empty" | "pool" | "dashboard" | "requests" | "request";
 
 export type Overlay =
   | { kind: "none" }
@@ -71,7 +105,8 @@ export type Overlay =
   | { kind: "missing-info"; id: string }
   | { kind: "profile"; id: string }
   | { kind: "new-request" }
-  | { kind: "edit-request" };
+  | { kind: "edit-request" }
+  | { kind: "match"; id: string };
 
 /** Where a flow was opened from, so closing returns the user there. */
 export type FlowOrigin = "empty-expanded" | "empty-collapsed" | "pool";

@@ -41,6 +41,7 @@
   --border-secondary: #ead8be;
   --border-input: #ffffff;
   --border-danger: #db4933;
+  --border-warning: #e27f00;
   --border-success: #2e9e4b;
   --border-info: #5e8b7f;
   --stroke-border: 1px;
@@ -52,6 +53,7 @@
   --text-inverse: #ffffff;
   --text-brand: #ff6f23;
   --text-danger-600: #db4933;
+  --text-warning: #e27f00;
   --text-success-600: #2e9e4b;
   /* text/success — the covered-chip green, distinct from the -600 ramp. */
   --text-success: #5e8b7f;

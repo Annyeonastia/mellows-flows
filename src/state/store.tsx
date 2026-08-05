@@ -9,15 +9,18 @@ import {
   type ReactNode,
 } from "react";
 import type {
+  AiMatch,
   Contractor,
   ContractorStatus,
   FlowOrigin,
   Overlay,
   RequestDraft,
+  RequestRecord,
   Screen,
 } from "./types";
 import { EMPTY_REQUEST_DRAFT } from "./types";
 import { SEED_CONTRACTORS } from "../data/contractors";
+import { SEED_MATCHES, SEED_REQUEST } from "../data/request";
 
 /* Session-local state only — no backend. Everything a user does inside a flow
    (imports, invites, deletions, edits) persists for the life of the tab, which
@@ -45,6 +48,9 @@ interface AppState {
   toast: string | null;
   /** Survives the Popup -> Edit request -> Popup round trip. */
   requestDraft: RequestDraft;
+  /** The request being edited or viewed. */
+  request: RequestRecord;
+  matches: AiMatch[];
 }
 
 interface AppActions {
@@ -82,6 +88,12 @@ interface AppActions {
   backToNewRequest: () => void;
   /** Abandons the whole flow and returns to the Contractors screen. */
   closeRequestFlow: () => void;
+  updateRequest: (patch: Partial<RequestRecord>) => void;
+  /** Publish changes — the request exists from here on. */
+  publishRequest: () => void;
+  /** Opening a match marks it viewed, unless it is already invited. */
+  openMatch: (id: string) => void;
+  inviteMatch: (id: string) => void;
 }
 
 export interface AddOptions {
@@ -117,6 +129,8 @@ export function AppProvider({
   const [menuExpanded, setMenuExpanded] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
   const [requestDraft, setRequestDraft] = useState<RequestDraft>(EMPTY_REQUEST_DRAFT);
+  const [request, setRequest] = useState<RequestRecord>(SEED_REQUEST);
+  const [matches, setMatches] = useState<AiMatch[]>(SEED_MATCHES);
   const toastTimer = useRef<number | null>(null);
 
   useEffect(
@@ -258,6 +272,26 @@ export function AppProvider({
     setOverlay({ kind: "none" });
   }, []);
 
+  const updateRequest = useCallback((patch: Partial<RequestRecord>) => {
+    setRequest((prev) => ({ ...prev, ...patch }));
+  }, []);
+
+  const publishRequest = useCallback(() => {
+    setOverlay({ kind: "none" });
+    setScreen("request");
+  }, []);
+
+  const openMatch = useCallback((id: string) => {
+    setMatches((prev) =>
+      prev.map((m) => (m.id === id && m.status === "not-invited" ? { ...m, status: "viewed" } : m)),
+    );
+    setOverlay({ kind: "match", id });
+  }, []);
+
+  const inviteMatch = useCallback((id: string) => {
+    setMatches((prev) => prev.map((m) => (m.id === id ? { ...m, status: "invited" } : m)));
+  }, []);
+
   const value = useMemo(
     () => ({
       screen,
@@ -290,6 +324,12 @@ export function AppProvider({
       openEditRequest,
       backToNewRequest,
       closeRequestFlow,
+      request,
+      matches,
+      updateRequest,
+      publishRequest,
+      openMatch,
+      inviteMatch,
     }),
     [
       screen,
@@ -321,6 +361,12 @@ export function AppProvider({
       openEditRequest,
       backToNewRequest,
       closeRequestFlow,
+      request,
+      matches,
+      updateRequest,
+      publishRequest,
+      openMatch,
+      inviteMatch,
     ],
   );
 

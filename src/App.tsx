@@ -13,6 +13,9 @@ import { DeleteContractorModal } from "./flows/DeleteContractorModal";
 import { DeleteManyModal } from "./flows/DeleteManyModal";
 import { MissingInfoModal } from "./flows/MissingInfoModal";
 import { NewRequestFlow } from "./flows/NewRequestFlow";
+import { EditRequest } from "./screens/EditRequest";
+import { RequestPage } from "./screens/RequestPage";
+import { MatchSheet } from "./screens/MatchSheet";
 import { AppProvider, useApp } from "./state/store";
 import { IllustrationGallery } from "./dev/IllustrationGallery";
 import "./App.css";
@@ -56,6 +59,7 @@ function Shell() {
           </>
         )}
         {screen === "pool" && <ContractorPool />}
+        {screen === "request" && <RequestPage />}
         {(screen === "dashboard" || screen === "requests") && (
           <SectionPlaceholder section={screen} />
         )}
@@ -71,6 +75,8 @@ function Shell() {
       {overlay.kind === "missing-info" && <MissingInfoModal id={overlay.id} />}
       {overlay.kind === "profile" && <ContractorProfile id={overlay.id} />}
       {overlay.kind === "new-request" && <NewRequestFlow />}
+      {overlay.kind === "edit-request" && <EditRequest />}
+      {overlay.kind === "match" && <MatchSheet id={overlay.id} />}
     </div>
   );
 }
