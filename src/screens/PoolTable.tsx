@@ -5,6 +5,7 @@ import { Tooltip } from "../components/Tooltip";
 import { RowActionsMenu, menuItemsFor, type MenuItem } from "../components/RowActionsMenu";
 import { Highlight } from "../components/Highlight";
 import { STATUS_LABEL, type Contractor } from "../state/types";
+import { Checkbox } from "../components/Checkbox";
 import { useApp } from "../state/store";
 import { downloadCv } from "../lib/cv";
 import { FilterPanel } from "./FilterPanel";
@@ -555,32 +556,3 @@ function Row({
   );
 }
 
-function Checkbox({
-  checked,
-  indeterminate = false,
-  onChange,
-  label,
-}: {
-  checked: boolean;
-  indeterminate?: boolean;
-  onChange: () => void;
-  label: string;
-}) {
-  // `indeterminate` is a DOM property, not an attribute — it has to be set here.
-  const setRef = (el: HTMLInputElement | null) => {
-    if (el) el.indeterminate = indeterminate && !checked;
-  };
-
-  return (
-    <label className="checkbox">
-      <input
-        ref={setRef}
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        aria-label={label}
-      />
-      <span className="checkbox__box" />
-    </label>
-  );
-}

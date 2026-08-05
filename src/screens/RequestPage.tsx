@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useApp } from "../state/store";
 import { NEW_REQUEST_MATCHES, type AiMatch } from "../state/types";
+import { Checkbox } from "../components/Checkbox";
 import { FigmaIcon } from "../components/FigmaIcon";
 import iconLock from "../assets/icons/icon-lock-20.svg";
 import iconSort from "../assets/icons/icon-sort-20.svg";
@@ -28,6 +29,14 @@ export function RequestPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("AI matches");
   const [menuOpen, setMenuOpen] = useState(false);
   const [sortAsc, setSortAsc] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  const toggleSelected = (id: string) =>
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
   const isPrivate = requestDraft.privatePool;
 
   useEffect(() => {
@@ -138,7 +147,13 @@ export function RequestPage() {
         <>
           <div className="rq__list">
             {visible.map((m) => (
-              <MatchCard key={m.id} match={m} onOpen={() => openMatch(m.id)} />
+              <MatchCard
+                key={m.id}
+                match={m}
+                onOpen={() => openMatch(m.id)}
+                selected={selected.has(m.id)}
+                onToggle={() => toggleSelected(m.id)}
+              />
             ))}
           </div>
           <p className="rq__total t-b3-regular u-secondary">Total: {visible.length} matches</p>
@@ -152,7 +167,17 @@ export function RequestPage() {
   );
 }
 
-function MatchCard({ match, onOpen }: { match: AiMatch; onOpen: () => void }) {
+function MatchCard({
+  match,
+  onOpen,
+  selected,
+  onToggle,
+}: {
+  match: AiMatch;
+  onOpen: () => void;
+  selected: boolean;
+  onToggle: () => void;
+}) {
   // "Не пишем From, рекомендации из Contractors подсвечиваем" — the canvas note
   // next to the 613 frames: people already in Contractors read "Contractors" in
   // the brand colour, everyone else names the platform they came from. The same
@@ -160,7 +185,10 @@ function MatchCard({ match, onOpen }: { match: AiMatch; onOpen: () => void }) {
   // not in the pool, so this follows the flag rather than the source.
   const inPool = Boolean(match.inTalents);
   return (
-    <button type="button" className="rq__card" onClick={onOpen}>
+    <div className="rq__card">
+      {/* The row opens the sheet, but the checkbox has to stay outside that
+          button — a control inside a button is not clickable. */}
+      <button type="button" className="rq__card-hit" onClick={onOpen}>
       <span className={`rq__avatar${match.isNew ? " is-new" : ""}`}>
         {match.photo ? (
           <img className="rq__photo" src={match.photo} alt="" />
@@ -192,6 +220,17 @@ function MatchCard({ match, onOpen }: { match: AiMatch; onOpen: () => void }) {
           {match.status === "invited" ? "Invited" : "Viewed"}
         </span>
       )}
-    </button>
+      </button>
+
+      {/* Checkbox Atom, drawn at the right edge of every row on the Public
+          frame. What selecting a match does is not designed yet, so it only
+          ticks. */}
+      <Checkbox
+        checked={selected}
+        onChange={onToggle}
+        label={`Select ${match.name}`}
+        className="rq__check"
+      />
+    </div>
   );
 }
