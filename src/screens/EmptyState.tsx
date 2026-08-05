@@ -1,21 +1,26 @@
 import { Button } from "../components/Button";
 import { useApp } from "../state/store";
 import iconUpload from "../assets/icons/icon-upload.svg";
-import blankPolygon from "../assets/icons/blank-polygon.svg";
+import artAddContractors from "../assets/illustrations/add-contractors.png";
+import artUpdatedInfo from "../assets/illustrations/updated-info.png";
+import artTheyMatch from "../assets/illustrations/they-match.png";
 import "./EmptyState.css";
 
 const CARDS = [
   {
     title: "Add your contractors",
     caption: "Upload CVs — or add emails to invite contractors you already trust",
+    art: artAddContractors,
   },
   {
     title: "Get the updated info",
     caption: "Each contractor gets an invitation and completes an AI-powered screening",
+    art: artUpdatedInfo,
   },
   {
     title: "They match first",
     caption: "Your pool matches first — you decide who fits your request best",
+    art: artTheyMatch,
   },
 ];
 
@@ -34,7 +39,7 @@ export function EmptyState() {
         {CARDS.map((card) => (
           <article key={card.title} className="onboarding-card">
             <div className="onboarding-card__art">
-              <img src={blankPolygon} alt="" aria-hidden="true" />
+              <img src={card.art} alt="" aria-hidden="true" />
             </div>
             <div className="onboarding-card__copy">
               <p className="t-b1-medium">{card.title}</p>

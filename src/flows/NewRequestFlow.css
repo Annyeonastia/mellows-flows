@@ -1,0 +1,184 @@
+/* "Popup - Empty / Filled - only my pool" (28285:103246 and siblings).
+   Every size below is measured off those frames: the form column is 492 wide
+   and sits 48 under the modal header. */
+
+.nr {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6) var(--space-10);
+}
+
+.nr__wrap {
+  width: 492px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- title ---------- */
+
+.nr__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-primary);
+}
+
+/* ---------- field ---------- */
+
+.nr__form {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.nr__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nr__textarea {
+  height: 120px;
+  padding: var(--space-4);
+  border: var(--stroke-border) solid var(--border-input);
+  border-radius: var(--radius-3);
+  background: var(--bg-surface-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family-body);
+  resize: none;
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.nr__textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.nr__textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.nr__counter {
+  align-self: flex-end;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- hint cards ---------- */
+
+.nr__hints {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-3);
+  background: var(--pearl-bush-400-8);
+}
+
+.nr__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nr__group-label {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.nr__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.nr__badge {
+  padding: 6px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--pearl-bush-400-24);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+/* Covered by the description — the checklist ticking itself off. */
+.nr__badge.is-covered {
+  background: var(--bg-surface-success-translucent);
+  color: var(--text-success);
+}
+
+/* ---------- privacy card ---------- */
+
+.nr__privacy {
+  gap: 6px;
+}
+
+.nr__toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 20px;
+}
+
+.nr__toggle {
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border-radius: var(--radius-full);
+  background: var(--bg-fill-control-default);
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.nr__toggle.is-on {
+  background: var(--button-brand-default);
+}
+
+.nr__toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.nr__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--bg-fill-control-indicator);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.nr__toggle.is-on .nr__knob {
+  transform: translateX(16px);
+}
+
+.nr__toggle-desc {
+  color: var(--text-primary);
+}
+
+/* ---------- footer ---------- */
+
+.nr__footer {
+  margin-top: var(--space-6);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.nr__footer-link {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nr__badge,
+  .nr__toggle,
+  .nr__knob {
+    transition: none;
+  }
+}

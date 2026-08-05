@@ -7,6 +7,8 @@
   --primary-porcelain: #f8f2e9;
   --orange-200: #f6d8ba;
   --pearl-bush-400-20: rgba(193, 148, 118, 0.2);
+  --pearl-bush-400-24: rgba(193, 148, 118, 0.24);
+  --pearl-bush-400-8: rgba(193, 148, 118, 0.08);
 
   /* ---------- Background ---------- */
   --bg-primary: #f8f2e9;
@@ -17,6 +19,10 @@
   --bg-surface-tertiary-2: #f4eadc;
   --bg-surface-danger: #fee6e2;
   --bg-surface-success: #e3f5e7;
+  --bg-surface-success-translucent: rgba(94, 139, 127, 0.12);
+  /* Toggle track / knob — bg-fill/control in the Figma collection. */
+  --bg-fill-control-default: var(--pearl-bush-400-24);
+  --bg-fill-control-indicator: #ffffff;
   /* Info snackbar — sampled from the "Email copied!" frame. */
   --bg-surface-info: #dde5e3;
   /* Table selection — sampled from the "Impossible to resend invite" frame. */
@@ -44,6 +50,8 @@
   --text-brand: #ff6f23;
   --text-danger-600: #db4933;
   --text-success-600: #2e9e4b;
+  /* text/success — the covered-chip green, distinct from the -600 ramp. */
+  --text-success: #5e8b7f;
   --text-info-600: #5e8b7f;
   --text-and-icons-secondary: rgba(35, 34, 34, 0.55);
 
@@ -55,6 +63,7 @@
   /* ---------- Buttons ---------- */
   --button-primary-default: #232222;
   --button-secondary-default: #ede2d6;
+  --button-brand-default: #ff6f23;
   --button-danger-secondary: rgba(246, 132, 115, 0.16);
   --button-danger-secondary-hover: rgba(246, 132, 115, 0.26);
 

@@ -18,7 +18,7 @@ interface HeaderProps {
 type HeaderMenu = "product" | "profile" | null;
 
 export function Header({ title, actions, showGenerate = false }: HeaderProps) {
-  const { goTo, notify } = useApp();
+  const { notify, openNewRequest } = useApp();
   const [menu, setMenu] = useState<HeaderMenu>(null);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function Header({ title, actions, showGenerate = false }: HeaderProps) {
             <button
               type="button"
               className="header__generate"
-              onClick={() => goTo("requests")}
+              onClick={openNewRequest}
             >
               <FigmaIcon
                 src={iconSparkles}

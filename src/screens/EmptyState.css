@@ -42,12 +42,13 @@
   flex-shrink: 0;
 }
 
-/* The placeholder polygon is mirrored vertically in the design. */
+/* The artwork ships as 480px squares that carry their own padding, so it fills
+   the box instead of being inset the way the old polygon placeholder was. */
 .onboarding-card__art img {
-  width: 133.333px;
-  height: 133.333px;
+  width: 100%;
+  height: 100%;
   display: block;
-  transform: scaleY(-1);
+  object-fit: contain;
 }
 
 .onboarding-card__copy {

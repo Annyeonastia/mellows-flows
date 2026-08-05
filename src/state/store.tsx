@@ -8,7 +8,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Contractor, ContractorStatus, FlowOrigin, Overlay, Screen } from "./types";
+import type {
+  Contractor,
+  ContractorStatus,
+  FlowOrigin,
+  Overlay,
+  RequestDraft,
+  Screen,
+} from "./types";
+import { EMPTY_REQUEST_DRAFT } from "./types";
 import { SEED_CONTRACTORS } from "../data/contractors";
 
 /* Session-local state only — no backend. Everything a user does inside a flow
@@ -35,6 +43,8 @@ interface AppState {
   menuExpanded: boolean;
   /** Single transient snackbar message, or null when nothing is showing. */
   toast: string | null;
+  /** Survives the Popup -> Edit request -> Popup round trip. */
+  requestDraft: RequestDraft;
 }
 
 interface AppActions {
@@ -62,6 +72,16 @@ interface AppActions {
   /** Shows the snackbar; it clears itself after a few seconds. */
   notify: (message: string) => void;
   dismissToast: () => void;
+  /* ---- Generate request ---- */
+  /** Opens the popup on a blank draft. */
+  openNewRequest: () => void;
+  updateRequestDraft: (patch: Partial<RequestDraft>) => void;
+  /** Popup -> Edit request. The draft stays put. */
+  openEditRequest: () => void;
+  /** Edit request -> back to the popup, still filled in. */
+  backToNewRequest: () => void;
+  /** Abandons the whole flow and returns to the Contractors screen. */
+  closeRequestFlow: () => void;
 }
 
 export interface AddOptions {
@@ -96,6 +116,7 @@ export function AppProvider({
   const [contractors, setContractors] = useState<Contractor[]>(SEED_CONTRACTORS);
   const [menuExpanded, setMenuExpanded] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
+  const [requestDraft, setRequestDraft] = useState<RequestDraft>(EMPTY_REQUEST_DRAFT);
   const toastTimer = useRef<number | null>(null);
 
   useEffect(
@@ -214,6 +235,29 @@ export function AppProvider({
     setToast(null);
   }, []);
 
+  /* ---- Generate request ----
+     Closing the popup drops the draft, the same way cancelling Upload CVs drops
+     the queued files: the flows in this prototype never ask twice. Stepping
+     back from Edit request keeps it, because that is a step, not a cancel. */
+
+  const openNewRequest = useCallback(() => {
+    setRequestDraft(EMPTY_REQUEST_DRAFT);
+    setOverlay({ kind: "new-request" });
+  }, []);
+
+  const updateRequestDraft = useCallback((patch: Partial<RequestDraft>) => {
+    setRequestDraft((prev) => ({ ...prev, ...patch }));
+  }, []);
+
+  const openEditRequest = useCallback(() => setOverlay({ kind: "edit-request" }), []);
+
+  const backToNewRequest = useCallback(() => setOverlay({ kind: "new-request" }), []);
+
+  const closeRequestFlow = useCallback(() => {
+    setRequestDraft(EMPTY_REQUEST_DRAFT);
+    setOverlay({ kind: "none" });
+  }, []);
+
   const value = useMemo(
     () => ({
       screen,
@@ -240,6 +284,12 @@ export function AppProvider({
       goToContractors,
       notify,
       dismissToast,
+      requestDraft,
+      openNewRequest,
+      updateRequestDraft,
+      openEditRequest,
+      backToNewRequest,
+      closeRequestFlow,
     }),
     [
       screen,
@@ -265,6 +315,12 @@ export function AppProvider({
       goToContractors,
       notify,
       dismissToast,
+      requestDraft,
+      openNewRequest,
+      updateRequestDraft,
+      openEditRequest,
+      backToNewRequest,
+      closeRequestFlow,
     ],
   );
 

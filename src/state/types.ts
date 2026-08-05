@@ -48,6 +48,16 @@ export interface UploadFile {
   error: string | null;
 }
 
+/** What the user types in the "Generate request" popup, kept in the store so
+    stepping back from Edit request returns to a filled-in form. */
+export interface RequestDraft {
+  description: string;
+  /** "Search only my pool" — private matching, no public link, no promotion. */
+  privatePool: boolean;
+}
+
+export const EMPTY_REQUEST_DRAFT: RequestDraft = { description: "", privatePool: false };
+
 /** `dashboard` and `requests` are navigable but out of this prototype's scope. */
 export type Screen = "empty" | "pool" | "dashboard" | "requests";
 
@@ -59,7 +69,9 @@ export type Overlay =
   | { kind: "delete-contractor"; id: string }
   | { kind: "delete-many"; ids: string[] }
   | { kind: "missing-info"; id: string }
-  | { kind: "profile"; id: string };
+  | { kind: "profile"; id: string }
+  | { kind: "new-request" }
+  | { kind: "edit-request" };
 
 /** Where a flow was opened from, so closing returns the user there. */
 export type FlowOrigin = "empty-expanded" | "empty-collapsed" | "pool";

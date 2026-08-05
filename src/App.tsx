@@ -12,6 +12,7 @@ import { InvitedModal } from "./flows/InvitedModal";
 import { DeleteContractorModal } from "./flows/DeleteContractorModal";
 import { DeleteManyModal } from "./flows/DeleteManyModal";
 import { MissingInfoModal } from "./flows/MissingInfoModal";
+import { NewRequestFlow } from "./flows/NewRequestFlow";
 import { AppProvider, useApp } from "./state/store";
 import { IllustrationGallery } from "./dev/IllustrationGallery";
 import "./App.css";
@@ -69,6 +70,7 @@ function Shell() {
       {overlay.kind === "delete-many" && <DeleteManyModal ids={overlay.ids} />}
       {overlay.kind === "missing-info" && <MissingInfoModal id={overlay.id} />}
       {overlay.kind === "profile" && <ContractorProfile id={overlay.id} />}
+      {overlay.kind === "new-request" && <NewRequestFlow />}
     </div>
   );
 }
