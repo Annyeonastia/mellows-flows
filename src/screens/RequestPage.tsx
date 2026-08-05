@@ -39,7 +39,9 @@ export function RequestPage() {
     return () => document.removeEventListener("mousedown", onDown, true);
   }, [menuOpen]);
 
-  const sourced = isPrivate ? matches.filter((m) => m.source === "My Pool") : matches;
+  // Private matching keeps only the people already in the user's Contractors,
+  // so deleting someone from Contractors drops them out of a private request.
+  const sourced = isPrivate ? matches.filter((m) => m.inTalents) : matches;
   // A freshly published request has only found its first matches; the rest are
   // there once it has been running.
   const ordered = sortAsc ? [...sourced].sort((a, b) => a.score - b.score) : sourced;
@@ -152,9 +154,11 @@ export function RequestPage() {
 
 function MatchCard({ match, onOpen }: { match: AiMatch; onOpen: () => void }) {
   // "Не пишем From, рекомендации из Contractors подсвечиваем" — the canvas note
-  // next to the 613 frames: own-pool matches read "Contractors" in the brand
-  // colour, everything else names its source in grey.
-  const inPool = match.source === "My Pool";
+  // next to the 613 frames: people already in Contractors read "Contractors" in
+  // the brand colour, everyone else names the platform they came from. The same
+  // person shows "Contractors" on the Public frame and "Mellow" once they are
+  // not in the pool, so this follows the flag rather than the source.
+  const inPool = Boolean(match.inTalents);
   return (
     <button type="button" className="rq__card" onClick={onOpen}>
       <span className={`rq__avatar${match.isNew ? " is-new" : ""}`}>

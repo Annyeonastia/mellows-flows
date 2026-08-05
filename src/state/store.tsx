@@ -98,6 +98,8 @@ interface AppActions {
   setRequestPhase: (phase: RequestPhase) => void;
   /** Opening a match marks it viewed, unless it is already invited. */
   openMatch: (id: string) => void;
+  /** Add to / Delete from Contractors, from the side sheet's "..." menu. */
+  setInTalents: (id: string, value: boolean) => void;
 }
 
 export interface AddOptions {
@@ -302,6 +304,12 @@ export function AppProvider({
     setOverlay({ kind: "match", id });
   }, []);
 
+  /** Add to / Delete from Contractors. Being in Contractors is what the star,
+      the "Contractors" label and private matching all read from. */
+  const setInTalents = useCallback((id: string, value: boolean) => {
+    setMatches((prev) => prev.map((m) => (m.id === id ? { ...m, inTalents: value } : m)));
+  }, []);
+
   const value = useMemo(
     () => ({
       screen,
@@ -342,6 +350,7 @@ export function AppProvider({
       createRequest,
       publishRequest,
       openMatch,
+      setInTalents,
     }),
     [
       screen,
@@ -381,6 +390,7 @@ export function AppProvider({
       createRequest,
       publishRequest,
       openMatch,
+      setInTalents,
     ],
   );
 

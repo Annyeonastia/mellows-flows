@@ -68,6 +68,8 @@ interface MatchSeed {
   isNew: boolean;
   photo?: string;
   status: AiMatch["status"];
+  /** Already in the user's Contractors: star, "Contractors" label, private matching. */
+  inTalents: boolean;
 }
 
 /* Statuses are spread across the list on purpose: the sheet's CTA follows the
@@ -75,20 +77,18 @@ interface MatchSeed {
    "Invite to apply", "Send email" and "Add to Contractors" all reachable
    without clicking one person through the whole chain. */
 const SEEDS: MatchSeed[] = [
-  { id: "m1", name: "Ismael Bruen", source: "My Pool", score: 99, experience: "5.5 years", rate: "$45/hr", isNew: true, status: "not-invited" },
-  { id: "m2", name: "Silvia Pagac", source: "Mellow", score: 88, experience: "1 year", rate: null, isNew: false, photo: photoSilvia, status: "not-invited" },
-  { id: "m3", name: "Rosemary Wilderman-Crooks", source: "My Pool", score: 86, experience: "3 years", rate: "$25/hr", isNew: false, status: "invited" },
-  { id: "m4", name: "Clint Boyle", source: "LinkedIn", score: 85, experience: "2 years", rate: null, isNew: true, photo: photoClint, status: "invited" },
-  { id: "m5", name: "Bill Haley", source: "LinkedIn", score: 82, experience: "1 year", rate: null, isNew: true, status: "viewed" },
-  { id: "m6", name: "Andy Stiedemann", source: "Mellow", score: 80, experience: "1 year", rate: "$32/hr", isNew: false, status: "not-invited" },
+  { id: "m1", name: "Ismael Bruen", source: "Mellow", score: 99, experience: "5.5 years", rate: "$45/hr", isNew: true, status: "not-invited", inTalents: true },
+  { id: "m2", name: "Silvia Pagac", source: "Mellow", score: 88, experience: "1 year", rate: null, isNew: false, photo: photoSilvia, status: "not-invited", inTalents: false },
+  { id: "m3", name: "Rosemary Wilderman-Crooks", source: "Mellow", score: 86, experience: "3 years", rate: "$25/hr", isNew: false, status: "invited", inTalents: true },
+  { id: "m4", name: "Clint Boyle", source: "LinkedIn", score: 85, experience: "2 years", rate: null, isNew: true, photo: photoClint, status: "invited", inTalents: false },
+  { id: "m5", name: "Bill Haley", source: "LinkedIn", score: 82, experience: "1 year", rate: null, isNew: true, status: "viewed", inTalents: false },
+  { id: "m6", name: "Andy Stiedemann", source: "Mellow", score: 80, experience: "1 year", rate: "$32/hr", isNew: false, status: "not-invited", inTalents: false },
 ];
 
 /** AI matches as listed on the Live Request frames. */
 export const SEED_MATCHES: AiMatch[] = SEEDS.map((s) => ({
   ...s,
   role: "Graphic Designer",
-  /** The star sits next to people who are already in the user's own pool. */
-  inTalents: s.source === "My Pool",
   /** The photo doubles as the video intro, exactly as the avatar is drawn. */
   hasVideo: Boolean(s.photo),
   verdict: "Strong match",

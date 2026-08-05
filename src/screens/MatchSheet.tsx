@@ -63,7 +63,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
  * CTA invites and then turns into "Send email", as the Invited frame draws it.
  */
 export function MatchSheet({ id }: { id: string }) {
-  const { matches, closeOverlay, notify } = useApp();
+  const { matches, closeOverlay, notify, setInTalents } = useApp();
   const match = matches.find((m) => m.id === id);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -108,6 +108,21 @@ export function MatchSheet({ id }: { id: string }) {
 
   const pick = (label: string) => {
     setMenuOpen(false);
+
+    // Add / Delete really move the person in and out of Contractors: the star,
+    // the "Contractors" label and private matching all read that flag, so a
+    // deletion has to take the marker with it.
+    if (label === "Add to Contractors") {
+      setInTalents(match.id, true);
+      notify(`${match.name} added to Contractors`);
+      return;
+    }
+    if (label === "Delete from Contractors") {
+      setInTalents(match.id, false);
+      notify(`${match.name} removed from Contractors`);
+      return;
+    }
+
     notify(`${label} — not wired up in the prototype`);
   };
 
@@ -150,9 +165,9 @@ export function MatchSheet({ id }: { id: string }) {
             </p>
 
             <p className="ms__statuses">
-              {/* Same wording as the list: own-pool matches read "Contractors". */}
+              {/* Same wording as the list: people in Contractors read that way. */}
               <span className="ms__badge t-caption">
-                {match.source === "My Pool" ? "Contractors" : match.source}
+                {inTalents ? "Contractors" : match.source}
               </span>
               {match.status !== "not-invited" && (
                 <>
