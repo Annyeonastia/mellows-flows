@@ -266,18 +266,66 @@
 
 /* ---------- phone preview ---------- */
 
+/* Mobile Preview / Frame — a device shell, not a plain card: rounded body with
+   the volume and power nubs poking out of the sides. */
 .er__phone {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-4);
-  border-radius: var(--radius-6, 24px);
+  border-radius: 44px;
   background: var(--bg-primary);
 }
 
+.er__phone::before,
+.er__phone::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+}
+
+/* Volume pair on the left. */
+.er__phone::before {
+  left: -4px;
+  top: 108px;
+  height: 156px;
+  box-shadow: 0 -56px 0 0 var(--bg-secondary);
+}
+
+/* Power on the right. */
+.er__phone::after {
+  right: -4px;
+  top: 140px;
+  height: 88px;
+}
+
 .er__phone-logo {
-  width: 36px;
-  margin: var(--space-4) 0 var(--space-2) var(--space-4);
+  position: relative;
+  display: block;
+  width: 32px;
+  height: 31.5px;
+  margin: var(--space-4) 0 var(--space-2) var(--space-5);
+  flex-shrink: 0;
+}
+
+.er__phone-logo img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  max-width: none;
+  height: 100%;
+}
+
+.er__phone-logo img:first-child {
+  left: 0;
+}
+
+.er__phone-logo img:last-child {
+  right: 0;
 }
 
 .er__phone-card {
@@ -289,14 +337,21 @@
   background: var(--bg-surface-primary);
 }
 
+/* The frame truncates the summary at three lines and hands the rest to
+   "Show more". */
 .er__phone-summary {
   color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .er__show-more {
   align-self: flex-start;
   text-decoration: underline;
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .er__phone-label {

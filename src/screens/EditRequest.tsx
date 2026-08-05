@@ -5,8 +5,9 @@ import type { ExperienceLevel } from "../state/types";
 import iconUser from "../assets/icons/icon-user-20.svg";
 import iconInfo from "../assets/icons/icon-info-20.svg";
 import iconX from "../assets/icons/icon-x-clear.svg";
-import chevronLeft from "../assets/icons/chevron-left.svg";
-import logoFull from "../assets/icons/logo-full.svg";
+import arrowLeft from "../assets/icons/icon-arrow-left-20.svg";
+import logoSignL from "../assets/icons/logo-sign-l.svg";
+import logoSignR from "../assets/icons/logo-sign-r.svg";
 import "./EditRequest.css";
 
 /**
@@ -24,7 +25,7 @@ export function EditRequest() {
       <header className="er__header">
         <div className="er__header-left">
           <button type="button" className="er__back" onClick={backToNewRequest} aria-label="Back">
-            <img src={chevronLeft} alt="" aria-hidden="true" />
+            <img src={arrowLeft} alt="" aria-hidden="true" />
           </button>
           <h1 className="t-accent-h5">Edit Request</h1>
         </div>
@@ -146,7 +147,10 @@ export function EditRequest() {
         {/* Mobile Preview / Frame — how the contractor sees the request. */}
         <aside className="er__col-preview">
           <div className="er__phone">
-            <img className="er__phone-logo" src={logoFull} alt="" aria-hidden="true" />
+            <span className="er__phone-logo" role="img" aria-label="Scout">
+              <img src={logoSignL} alt="" />
+              <img src={logoSignR} alt="" />
+            </span>
             <div className="er__phone-card">
               <h3 className="t-accent-h5">{request.title}</h3>
               <p className="t-b2-regular er__phone-summary">{request.summary}</p>
