@@ -71,6 +71,12 @@
   align-content: start;
 }
 
+/* The column is a flex container inside a scroller, so its children have to
+   opt out of shrinking or the fixed-height cards collapse. */
+.er__col-form > * {
+  flex-shrink: 0;
+}
+
 .er__col-preview {
   width: 425px;
   flex-shrink: 0;
@@ -123,14 +129,15 @@
 .er__alert {
   display: flex;
   gap: var(--space-2);
-  padding: var(--space-4);
+  /* 14 + two 18px lines + 14 + the 1px border lands on the frame's 66. */
+  padding: var(--space-3-5);
   border: var(--stroke-border) solid var(--border-warning);
   border-radius: var(--radius-3);
   background: var(--bg-surface-warning);
   color: var(--text-warning);
 }
 
-.er__alert img {
+.er__alert-icon {
   width: 20px;
   height: 20px;
   flex-shrink: 0;

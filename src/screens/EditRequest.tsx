@@ -3,7 +3,6 @@ import { EXPERIENCE_LEVELS } from "../data/request";
 import { useApp } from "../state/store";
 import type { ExperienceLevel } from "../state/types";
 import iconUser from "../assets/icons/icon-user-20.svg";
-import iconInfo from "../assets/icons/icon-info-20.svg";
 import iconX from "../assets/icons/icon-x-clear.svg";
 import arrowLeft from "../assets/icons/icon-arrow-left-20.svg";
 import logoSignL from "../assets/icons/logo-sign-l.svg";
@@ -57,7 +56,24 @@ export function EditRequest() {
 
           {isPrivate && (
             <p className="er__alert t-b3-medium">
-              <img src={iconInfo} alt="" aria-hidden="true" />
+              {/* Inline so the glyph takes the alert's warning colour; the
+                  icon-info asset is hard-coded to the info teal. */}
+              <svg
+                className="er__alert-icon"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <circle cx="10" cy="10" r="8.25" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M10 13.33V10M10 6.67H10.01"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
               Once you will publish changes your request become private: promotion will disappear,
               but all your AI Matches will keep
             </p>
